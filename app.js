@@ -5,7 +5,7 @@
 
 const KEY = 'b1v.state.v1';
 const DAY = 86400000;
-const DEFAULTS = { dir:'de', newPerDay:20, sessLen:30, range:'0', showEx:true };
+const DEFAULTS = { dir:'de', newPerDay:20, sessLen:30, range:'0', showEx:true, typing:'off' };
 
 let DECK = [];
 let S = load();
@@ -191,6 +191,135 @@ function highlight(sentence, de){
 }
 const esc = s => s.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
 
+/* ---------------- typed answers ---------------- */
+
+/** Fold a string to a comparable form: umlauts spelled out (so "Gruesse" matches
+    "Grüße"), no case, no punctuation. */
+function normAns(s){
+  return s.toLowerCase()
+    .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+    .replace(/[^a-z0-9 ]+/g,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function levenshtein(a, b){
+  if(a === b) return 0;
+  if(!a.length) return b.length;
+  if(!b.length) return a.length;
+  let prev = Array.from({length:b.length+1}, (_,j) => j);
+  for(let i = 1; i <= a.length; i++){
+    const cur = [i];
+    for(let j = 1; j <= b.length; j++){
+      cur[j] = Math.min(prev[j] + 1, cur[j-1] + 1, prev[j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+    }
+    prev = cur;
+  }
+  return prev[b.length];
+}
+const similarity = (a, b) =>
+  (!a.length && !b.length) ? 1 : 1 - levenshtein(a, b) / Math.max(a.length, b.length);
+
+/** Accepted spellings, each keeping the form we would show the learner.
+    A gloss like "to get, fetch, pick up" accepts any one of its senses. */
+function enAlts(en){
+  const seen = new Set(), out = [];
+  const add = disp => {
+    const d = disp.trim(), n = normAns(d);
+    if(n && !seen.has(n)){ seen.add(n); out.push({ n, d }); }
+  };
+  const clean = en.replace(/\([^)]*\)/g, ' ').replace(/\s+/g, ' ').trim();
+  add(clean);
+  for(const raw of clean.split(/[,;]/)){
+    const p = raw.trim();
+    if(!p) continue;
+    add(p);
+    add(p.replace(/^to\s+/i, ''));
+    add(p.replace(/^(a|an|the)\s+/i, ''));
+  }
+  return out;
+}
+
+/** German side: with and without the article, slash variants ("gern/gerne"),
+    and reflexives without "sich". */
+function deAlts(de){
+  const seen = new Set(), out = [];
+  const add = disp => {
+    const d = String(disp).trim(), n = normAns(d);
+    if(n && !seen.has(n)){ seen.add(n); out.push({ n, d }); }
+  };
+  add(de);
+  const m = de.match(/^(der|die|das)\s+(.+)$/i);
+  const base = m ? m[2] : de;
+  if(m) add(base);
+  base.split('/').forEach(add);
+  de.split('/').forEach(add);
+  if(/^sich\s+/i.test(base)) add(base.replace(/^sich\s+/i, ''));
+  return out;
+}
+
+/** Mark, inside `right`, the characters the typed answer did not account for. */
+function diffMark(typed, right){
+  const a = normAns(typed), b = normAns(right);
+  if(!a) return esc(right);
+  // longest-common-subsequence membership on the normalised forms
+  const n = a.length, m2 = b.length;
+  const dp = Array.from({length:n+1}, () => new Uint16Array(m2+1));
+  for(let i = 1; i <= n; i++)
+    for(let j = 1; j <= m2; j++)
+      dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1] + 1 : Math.max(dp[i-1][j], dp[i][j-1]);
+  const keep = new Set();
+  let i = n, j = m2;
+  while(i > 0 && j > 0){
+    if(a[i-1] === b[j-1]){ keep.add(j-1); i--; j--; }
+    else if(dp[i-1][j] >= dp[i][j-1]) i--;
+    else j--;
+  }
+  // map positions in the normalised string back onto the original
+  let k = -1, html = '';
+  for(const ch of right){
+    const isChar = normAns(ch).length > 0;
+    if(isChar) k++;
+    const missing = isChar && !keep.has(k);
+    html += missing ? '<mark>' + esc(ch) + '</mark>' : esc(ch);
+  }
+  return html.replace(/<\/mark><mark>/g, '');    // merge adjacent runs
+}
+
+/** Compare what was typed against the card, returning a score and a suggested grade. */
+function scoreTyped(typed, card, answerIsGerman){
+  const alts = answerIsGerman ? deAlts(card.de) : enAlts(card.en);
+  const base = normAns(typed);
+  // On the English side "to fetch" and "fetch" are the same answer. On the German side
+  // the article is deliberately NOT stripped, so a wrong gender still costs marks.
+  const forms = new Set([base]);
+  if(!answerIsGerman){
+    forms.add(base.replace(/^to /, ''));
+    forms.add(base.replace(/^(a|an|the) /, ''));
+  }
+  let best = 0, bestAlt = alts[0] || { d: answerIsGerman ? card.de : card.en };
+  for(const alt of alts){
+    for(const f of forms){
+      const s = similarity(f, alt.n);
+      if(s > best){ best = s; bestAlt = alt; }
+    }
+  }
+
+  let note = '';
+  if(answerIsGerman){
+    const m = card.de.match(/^(der|die|das)\s+/i);
+    if(m){
+      const typedArt = (typed.trim().match(/^(der|die|das)\b/i) || [])[1];
+      if(!typedArt) note = 'Remember the article: ' + m[1];
+      else if(typedArt.toLowerCase() !== m[1].toLowerCase()) note = 'Wrong gender — it is ' + m[1];
+    }
+  }
+  const pct = Math.round(best * 100);
+  const verdict = best >= 0.95 ? 'ok' : best >= 0.7 ? 'warn' : 'bad';
+  const suggest = best >= 0.95 ? 4 : best >= 0.7 ? 3 : 0;
+  return { pct, verdict, suggest, note, best, alt: bestAlt.d };
+}
+
 function renderCard(){
   const c = DECK[sess.cur];
   const st = S.p[c.i];
@@ -216,6 +345,22 @@ function renderCard(){
   $('#btnShow').classList.remove('hidden');
   $('#tapHint').classList.remove('hidden');
 
+  const typing = S.set.typing === 'on';
+  const fb = $('#typeFb');
+  fb.classList.add('hidden'); fb.className = 'type-fb hidden';
+  $$('.g').forEach(b => b.classList.remove('sug'));
+  $('#typeWrap').classList.toggle('hidden', !typing);
+  $('#btnShow').textContent = typing ? 'Check' : 'Show answer';
+  $('#tapHint').textContent = typing ? 'type, then press enter' : 'tap to reveal';
+  if(typing){
+    const inp = $('#typeIn');
+    inp.value = '';
+    inp.disabled = false;
+    inp.lang = deFront ? 'en' : 'de';
+    inp.placeholder = deFront ? 'type it in English' : 'type it in German';
+    setTimeout(() => inp.focus({ preventScroll:true }), 30);
+  }
+
   for(const q of [0,3,4,5]) $('#i'+q).textContent = fmtIv(nextInterval(st, q));
 
   const pct = sess.total ? (sess.done / sess.total) * 100 : 0;
@@ -224,12 +369,46 @@ function renderCard(){
 }
 
 function reveal(){
-  if(sess.shown) return;
+  if(!sess || sess.shown) return;
   sess.shown = true;
+  sess.suggest = null;
+  if(S.set.typing === 'on') checkTyped();
   $('#cBack').classList.remove('hidden');
   $('#grades').classList.remove('hidden');
   $('#btnShow').classList.add('hidden');
   $('#tapHint').classList.add('hidden');
+}
+
+/** Score the typed answer and show the result above the revealed card. */
+function checkTyped(){
+  const inp = $('#typeIn'), fb = $('#typeFb');
+  const typed = inp.value.trim();
+  inp.disabled = true;
+  inp.blur();
+  if(!typed){ fb.classList.add('hidden'); return; }   // empty = "just show me"
+
+  const c = DECK[sess.cur];
+  const answerIsGerman = !askGerman(c.i);
+  const r = scoreTyped(typed, c, answerIsGerman);
+  const full = answerIsGerman ? c.de : c.en;
+  const label = r.verdict === 'ok' ? 'Correct' : r.verdict === 'warn' ? 'Almost' : 'Not quite';
+  const icon  = r.verdict === 'ok' ? '&#10003;' : r.verdict === 'warn' ? '&#8776;' : '&#10007;';
+
+  let html = `<div class="verdict">${icon} ${label} <span class="pct">${r.pct}%</span></div>`;
+  if(r.pct < 100){
+    html += `<div class="yours">you wrote <s>${esc(typed)}</s></div>`;
+    // Marking every letter of a completely wrong guess is noise; only diff near misses.
+    html += `<div class="yours">answer ${r.pct >= 40 ? diffMark(typed, r.alt) : esc(r.alt)}</div>`;
+    if(normAns(r.alt) !== normAns(full))
+      html += `<div class="yours">full sense: ${esc(full)}</div>`;
+  }
+  if(r.note) html += `<div class="note">${esc(r.note)}</div>`;
+
+  fb.innerHTML = html;
+  fb.className = 'type-fb ' + r.verdict;
+  sess.suggest = r.suggest;
+  const btn = document.querySelector(`.g[data-g="${r.suggest}"]`);
+  if(btn) btn.classList.add('sug');
 }
 
 function answer(q){
@@ -249,7 +428,12 @@ function answer(q){
 
 /* ---------------- home ---------------- */
 
+function syncMode(){
+  $$('#modeSeg button').forEach(b => b.classList.toggle('on', b.dataset.m === S.set.typing));
+}
+
 function renderHome(){
+  syncMode();
   const p = pool();
   const learned = p.filter(c => { const st = S.p[c.i]; return st && st.rep > 0; }).length;
   const pct = p.length ? Math.round(learned / p.length * 100) : 0;
@@ -447,9 +631,17 @@ function bind(){
   $('#btnHome').onclick    = () => show('home');
   $('#btnAgainSession').onclick = () => startSession('mixed');
 
-  $('#card').onclick  = reveal;
+  $('#card').onclick = () => {
+    if(S.set.typing === 'on' && sess && !sess.shown){ $('#typeIn').focus(); return; }
+    reveal();
+  };
   $('#btnShow').onclick = reveal;
+  $('#typeWrap').onsubmit = e => { e.preventDefault(); reveal(); };
   $$('.g').forEach(b => b.onclick = () => answer(+b.dataset.g));
+
+  $$('#modeSeg button').forEach(b => b.onclick = () => {
+    S.set.typing = b.dataset.m; save(); syncMode();
+  });
 
   $('#q').oninput = renderList;
   $$('#browseChips .chip').forEach(ch => ch.onclick = () => {
@@ -459,8 +651,12 @@ function bind(){
 
   document.addEventListener('keydown', e => {
     if($('#study').classList.contains('hidden')) return;
-    if(e.target.tagName === 'INPUT') return;
-    if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); sess && !sess.shown ? reveal() : answer(4); }
+    if(e.target.tagName === 'INPUT') return;      // the answer box handles its own keys
+    if(e.key === ' ' || e.key === 'Enter'){
+      e.preventDefault();
+      if(sess && !sess.shown) reveal();
+      else answer(sess && sess.suggest !== null && sess.suggest !== undefined ? sess.suggest : 4);
+    }
     else if('1234'.includes(e.key)) answer([0,3,4,5][+e.key - 1]);
   });
 }

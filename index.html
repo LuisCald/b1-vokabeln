@@ -40,6 +40,11 @@
       <div class="tile"><b id="tAcc">–</b><span>accuracy</span></div>
     </div>
 
+    <div class="seg" id="modeSeg" role="group" aria-label="How to answer">
+      <button type="button" data-m="off">Tap to reveal</button>
+      <button type="button" data-m="on">Type the answer</button>
+    </div>
+
     <button class="primary big" id="btnStudy">Study</button>
     <div class="row2">
       <button class="ghost" id="btnReview">Review only</button>
@@ -64,6 +69,12 @@
       <div class="card-in">
         <div class="prompt-kind" id="cKind"></div>
         <div class="prompt" id="cFront"></div>
+        <form class="type-wrap hidden" id="typeWrap" autocomplete="off">
+          <input id="typeIn" type="text" inputmode="text" autocomplete="off"
+                 autocorrect="off" autocapitalize="off" spellcheck="false"
+                 placeholder="type your answer" aria-label="Your answer">
+        </form>
+        <div class="type-fb hidden" id="typeFb"></div>
         <div class="reveal hidden" id="cBack">
           <div class="answer" id="cAnswer"></div>
           <div class="meta" id="cMeta"></div>

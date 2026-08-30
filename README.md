@@ -9,11 +9,41 @@ and a corpus frequency rank used to order the deck so the most useful words come
 
 ## Using it
 
+Pick how you want to answer with the switch at the top of the home screen:
+
+- **Tap to reveal** — flip the card and grade yourself. Fast, good on a phone in a queue.
+- **Type the answer** — write the translation and get a similarity score before grading.
+
+Then choose a session:
+
 - **Study** — mixes cards that are due with a capped number of new ones.
 - **Review only** — no new cards, just what is due.
 - **Drill worst** — the words you get wrong most, ignoring the schedule.
-- Tap the card to reveal, then rate **Again / Hard / Good / Easy**. On a keyboard:
-  `space` reveals and marks Good, `1`–`4` grade directly.
+
+Rate every card **Again / Hard / Good / Easy**. On a keyboard: `space` reveals (and then
+accepts the suggested grade), `1`–`4` grade directly.
+
+### Typed answers
+
+The typed answer is compared with a normalised edit distance and scored 0–100%:
+
+- **≥ 95% — Correct**, suggests *Good*.
+- **70–94% — Almost**, suggests *Hard*; the missing letters are marked in the answer
+  (`Abschlu`**`s`**`s`), so a typo costs you a repeat rather than a full reset.
+- **< 70% — Not quite**, suggests *Again*.
+
+The suggestion is only a highlight — you always make the final call.
+
+Matching is deliberately forgiving where it should be and strict where it matters:
+
+- Umlauts may be typed either way — `Gruesse` matches `Grüße`, `abschluß` matches `Abschluss`.
+- Any one sense of a multi-part gloss counts: for `to get, fetch, pick up`, both `fetch`
+  and `to fetch` are full marks.
+- Case and punctuation are ignored.
+- **Articles are not.** Answering `Abschluss` is correct but reminds you it is *der*, and
+  `die Abschluss` is scored down as a wrong gender — gender is examined at B1.
+
+Leaving the box empty and pressing **Check** just reveals the card without scoring.
 
 Scheduling is SM-2 (the Anki algorithm). A word you miss comes back within the same
 session; one you know drifts out to days, then weeks.
