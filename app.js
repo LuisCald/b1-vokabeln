@@ -45,8 +45,10 @@ function logToday(field, n = 1){
 function nextInterval(st, q){
   if(q < 3) return 0;
   const rep = (st ? st.rep : 0) + 1;
-  if(rep === 1) return 1;
-  if(rep === 2) return 6;
+  // "Easy" on a word you already knew should leave the daily queue at once — the deck
+  // opens with very common function words that a B1 learner does not need to drill.
+  if(rep === 1) return q === 5 ? 4 : 1;
+  if(rep === 2) return q === 5 ? 8 : q === 3 ? 4 : 6;
   const ef = st ? st.ef : 2.5;
   let iv = Math.round((st ? st.iv : 1) * ef);
   if(q === 3) iv = Math.max(1, Math.round(iv * 0.7));
