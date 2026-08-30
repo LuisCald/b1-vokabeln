@@ -1,0 +1,5 @@
+# Source PDFs are copyrighted — keep them local, never publish them.
+*.pdf
+
+.DS_Store
+*.swp

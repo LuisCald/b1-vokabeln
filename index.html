@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111318">
+<title>B1 Vokabeln</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ============ HOME ============ -->
+  <section id="home" class="screen">
+    <header class="hd">
+      <h1>B1 Vokabeln</h1>
+      <button class="icon" id="toSettings" aria-label="Settings">&#9881;</button>
+    </header>
+
+    <div class="ring-wrap">
+      <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+        <circle class="ring-bg" cx="60" cy="60" r="52"></circle>
+        <circle class="ring-fg" cx="60" cy="60" r="52" id="ringFg"></circle>
+      </svg>
+      <div class="ring-mid">
+        <b id="ringPct">0%</b>
+        <span>learned</span>
+      </div>
+    </div>
+
+    <div class="tiles">
+      <div class="tile"><b id="tDue">0</b><span>due now</span></div>
+      <div class="tile"><b id="tNew">0</b><span>new today</span></div>
+      <div class="tile"><b id="tStreak">0</b><span>day streak</span></div>
+      <div class="tile"><b id="tAcc">–</b><span>accuracy</span></div>
+    </div>
+
+    <button class="primary big" id="btnStudy">Study</button>
+    <div class="row2">
+      <button class="ghost" id="btnReview">Review only</button>
+      <button class="ghost" id="btnHard">Drill worst</button>
+    </div>
+    <div class="row2">
+      <button class="ghost" id="toBrowse">Browse deck</button>
+      <button class="ghost" id="toStats">Statistics</button>
+    </div>
+    <p class="foot" id="homeFoot"></p>
+  </section>
+
+  <!-- ============ STUDY ============ -->
+  <section id="study" class="screen hidden">
+    <header class="hd">
+      <button class="icon" id="studyBack" aria-label="Back">&#8592;</button>
+      <div class="bar"><i id="sessBar"></i></div>
+      <span class="count" id="sessCount">0</span>
+    </header>
+
+    <div class="card" id="card">
+      <div class="card-in">
+        <div class="prompt-kind" id="cKind"></div>
+        <div class="prompt" id="cFront"></div>
+        <div class="reveal hidden" id="cBack">
+          <div class="answer" id="cAnswer"></div>
+          <div class="meta" id="cMeta"></div>
+          <div class="ex" id="cEx"></div>
+        </div>
+      </div>
+      <div class="tap-hint" id="tapHint">tap to reveal</div>
+    </div>
+
+    <div class="grades hidden" id="grades">
+      <button data-g="0" class="g g0"><b>Again</b><span id="i0"></span></button>
+      <button data-g="3" class="g g3"><b>Hard</b><span id="i3"></span></button>
+      <button data-g="4" class="g g4"><b>Good</b><span id="i4"></span></button>
+      <button data-g="5" class="g g5"><b>Easy</b><span id="i5"></span></button>
+    </div>
+    <button class="primary big show-btn" id="btnShow">Show answer</button>
+  </section>
+
+  <!-- ============ DONE ============ -->
+  <section id="done" class="screen hidden">
+    <header class="hd"><button class="icon" id="doneBack" aria-label="Back">&#8592;</button><h1>Session done</h1></header>
+    <div class="done-wrap">
+      <div class="done-mark">&#10003;</div>
+      <p id="doneLine"></p>
+      <div class="tiles">
+        <div class="tile"><b id="dSeen">0</b><span>cards</span></div>
+        <div class="tile"><b id="dOk">0</b><span>correct</span></div>
+        <div class="tile"><b id="dAcc">0%</b><span>accuracy</span></div>
+      </div>
+      <button class="primary big" id="btnAgainSession">Study more</button>
+      <button class="ghost" id="btnHome">Back home</button>
+    </div>
+  </section>
+
+  <!-- ============ BROWSE ============ -->
+  <section id="browse" class="screen hidden">
+    <header class="hd">
+      <button class="icon" id="browseBack" aria-label="Back">&#8592;</button>
+      <input id="q" type="search" placeholder="Search German or English…" autocomplete="off">
+    </header>
+    <div class="chips" id="browseChips">
+      <button class="chip on" data-f="all">All</button>
+      <button class="chip" data-f="noun">Nouns</button>
+      <button class="chip" data-f="verb">Verbs</button>
+      <button class="chip" data-f="adj">Adj</button>
+      <button class="chip" data-f="due">Due</button>
+      <button class="chip" data-f="weak">Weak</button>
+      <button class="chip" data-f="unseen">Unseen</button>
+    </div>
+    <div id="list" class="list"></div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section id="stats" class="screen hidden">
+    <header class="hd"><button class="icon" id="statsBack" aria-label="Back">&#8592;</button><h1>Statistics</h1></header>
+    <div class="pad">
+      <h2>Last 12 weeks</h2>
+      <div id="heat" class="heat"></div>
+      <div class="heat-key"><span>less</span><i class="h0"></i><i class="h1"></i><i class="h2"></i><i class="h3"></i><i class="h4"></i><span>more</span></div>
+
+      <h2>Maturity</h2>
+      <div class="mat" id="mat"></div>
+      <div class="mat-key" id="matKey"></div>
+
+      <h2>Upcoming reviews</h2>
+      <div id="fore" class="fore"></div>
+
+      <h2>Weakest words</h2>
+      <div id="weak" class="list"></div>
+    </div>
+  </section>
+
+  <!-- ============ SETTINGS ============ -->
+  <section id="settings" class="screen hidden">
+    <header class="hd"><button class="icon" id="setBack" aria-label="Back">&#8592;</button><h1>Settings</h1></header>
+    <div class="pad">
+      <label class="set">
+        <span>Direction</span>
+        <select id="sDir">
+          <option value="de">German &rarr; English</option>
+          <option value="en">English &rarr; German</option>
+          <option value="mix">Mixed</option>
+        </select>
+      </label>
+
+      <label class="set">
+        <span>New cards / day</span>
+        <select id="sNew">
+          <option>5</option><option>10</option><option selected>20</option>
+          <option>30</option><option>50</option><option>100</option>
+        </select>
+      </label>
+
+      <label class="set">
+        <span>Session length</span>
+        <select id="sLen">
+          <option>10</option><option>20</option><option selected>30</option>
+          <option>50</option><option value="9999">No limit</option>
+        </select>
+      </label>
+
+      <label class="set">
+        <span>Word range</span>
+        <select id="sRange">
+          <option value="0">Whole deck (2640)</option>
+          <option value="500">Top 500 most frequent</option>
+          <option value="1000">Top 1000</option>
+          <option value="1500">Top 1500</option>
+          <option value="dtz">DTZ-only words (not in top 4034)</option>
+        </select>
+      </label>
+
+      <label class="set inline">
+        <span>Show example sentence</span>
+        <input type="checkbox" id="sEx" checked>
+      </label>
+
+      <h2>Your data</h2>
+      <p class="hint">Progress lives in this browser only. Export a backup you can keep in Dropbox and load on another device.</p>
+      <button class="ghost" id="btnExport">Export progress (.json)</button>
+      <button class="ghost" id="btnImport">Import progress</button>
+      <input type="file" id="fileIn" accept="application/json" hidden>
+      <button class="danger" id="btnReset">Reset all progress</button>
+      <p class="foot" id="setFoot"></p>
+    </div>
+  </section>
+
+</div>
+
+<div id="toast" class="toast hidden"></div>
+<script src="app.js"></script>
+</body>
+</html>
