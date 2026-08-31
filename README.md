@@ -47,6 +47,16 @@ Matching is deliberately forgiving where it should be and strict where it matter
 
 Leaving the box empty and pressing **Check** just reveals the card without scoring.
 
+### Meanings
+
+A German word rarely has one meaning. Every card lists each sense the DTZ records with
+the sentence that shows it — `halten` is *to hold*, *to stop (a train)*, *to keep to,
+obey*, *to think of*, and *to keep, last (food)*, each with its own example. The first
+three meanings are shown; the rest sit behind a "+n more" toggle.
+
+**One meaning is enough when typing.** Answering `stop` for a word glossed
+`stop!; just, simply` scores 100% — the matcher accepts any single sense.
+
 Scheduling is SM-2 (the Anki algorithm). A word you miss comes back within the same
 session; one you know drifts out to days, then weeks.
 
@@ -93,6 +103,8 @@ python3 build_deck.py     # join both      -> deck.json
   headword is never matched to a capitalised noun (the adverb *recht* is not *das Recht*).
 - `manual_glosses.json` supplies English for the ~750 everyday DTZ words that fall outside
   the dictionary's top 4,034 (*Ampel*, *Zahnpasta*, *Altenheim* …).
+- `sense_labels.json` names each sense. The DTZ numbers its senses but never labels them,
+  so all 1,024 multi-sense cards (2,764 sentences) are labelled by hand.
 
 `build_deck.py` keeps the card order stable across rebuilds: any word already present in
 the published `deck.json` (read as `deck_prev.json`) keeps its slot, and only genuinely new
@@ -102,6 +114,9 @@ silently reassign someone's history to the wrong words.
 Two classes of correction are applied by hand in `build_deck.py`:
 
 - `FIX_ARTICLE` — nouns whose article the source PDF omits (*Ratschlag*, *Schinken*).
+- `SENSE_FIX` — words where the frequency dictionary glosses a homograph rather than the
+  DTZ entry: its `laut` is the preposition *according to*, but the DTZ entry is the
+  adjective *loud*.
 - `GENDER_SENSE` — nouns whose meaning turns on the gender. The frequency dictionary lists
   only one of each pair, so without this *die Leiter* (ladder) would inherit the gloss of
   *der Leiter* (leader).

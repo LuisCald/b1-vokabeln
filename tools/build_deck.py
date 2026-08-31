@@ -153,7 +153,29 @@ FIX_ARTICLE = {'Ratschlag': 'der', 'Schinken': 'der'}   # article omitted in the
 # Nouns whose meaning depends on the gender. The frequency dictionary lists only one of
 # each pair, so both DTZ entries would otherwise inherit the same gloss.
 # A DTZ headword can cover a sense the frequency dictionary does not list at all.
-SENSE_FIX = {'halt': 'stop!; just, simply'}
+SENSE_FIX = {
+    'halt':      'stop!; just, simply',
+    'laut':      'loud; according to',
+    'los':       "go on!; what's up (los sein)",
+    'je':        'each; depending on (je nach)',
+    'Mittel':    'remedy, medicine; means',
+    'leisten':   'to afford (sich leisten); to provide',
+    'Dank':      'thanks',
+    'abnehmen':  'to take off, remove; to lose weight',
+    'Geschäft':  'shop; business',
+    'einsetzen': 'to use, deploy; to stand up for',
+    'zulassen':  'to leave shut; to register (a vehicle)',
+    'Schein':    'banknote, bill',
+    'Führung':   'guided tour; lead',
+    'Station':   'stop; ward',
+    'Schicht':   'shift (at work)',
+    'ein-':      'one; someone',
+    'anstellen': 'to turn on; to employ; to queue up',
+    'Zeugnis':   'certificate, report',
+    'fließend':  'fluent; running (water)',
+    'kündigen':  'to resign; to give notice; to cancel',
+    'Schuld':    'fault, blame; debts',
+}
 
 GENDER_SENSE = {
     ('der', 'Leiter'): 'leader, manager',
