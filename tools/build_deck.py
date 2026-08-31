@@ -57,23 +57,36 @@ def analyse(hw):
             'forms': forms, 'reflexive': reflexive}
 
 def all_examples(ex):
-    """The DTZ gives up to nine numbered senses per headword. Keep them all: the gloss
-    often describes a later sense than the first example illustrates (the particle `halt`
-    is glossed "just, simply" but its first example is the interjection "Halt!")."""
+    """Split a DTZ entry into its numbered senses.
+
+    A sense number only counts at a sentence boundary and only if it continues the run
+    1, 2, 3 ... Without that, ordinals inside a sentence are mistaken for senses and cut
+    it in half ("Wir wohnen oben im 3. Stock", "seit dem 1. März", a score of "2 : 4")."""
     if not ex:
         return []
     ex = re.sub(r'\s+', ' ', ex.strip())
-    parts = re.split(r'(?:^|\s)(\d)\.\s', ' ' + ex)
-    if len(parts) < 3:
+    cuts, want = [], 1
+    # Extraction sometimes drops the dot after a sense number ("… viel Ruhe. 4 Ich habe").
+    # Requiring the number to continue the run 1, 2, 3 … at a sentence boundary keeps a
+    # bare figure inside a sentence ("zusammen 20 Euro", a score "2 : 0") from splitting it.
+    for m in re.finditer(r'(\d{1,2})\.?\s', ex):
+        before = ex[:m.start()].rstrip()
+        at_boundary = (not before) or before[-1] in '.!?\u2026'
+        if at_boundary and int(m.group(1)) == want:
+            cuts.append((m.start(), m.end()))
+            want += 1
+    if not cuts:
         return [ex]
     out = []
-    for i in range(1, len(parts) - 1, 2):
-        s = parts[i + 1].strip()
-        if s:
-            out.append(s)
+    for i, (a, b) in enumerate(cuts):
+        end = cuts[i + 1][0] if i + 1 < len(cuts) else len(ex)
+        piece = ex[b:end].strip()
+        if piece:
+            out.append(piece)
+    head = ex[:cuts[0][0]].strip()
+    if head:
+        out.insert(0, head)
     return out
-
-NOUN_POS = {'der', 'die', 'das', 'der, die'}
 
 def lookup(a):
     """Find the gloss. German capitalisation is meaningful, so a lowercase headword must
@@ -132,6 +145,9 @@ print([c['lemma'] for c in cards if not c['en']][:25])
 # ---- merge hand-written glosses for DTZ words outside the top-4034 frequency list ----
 import os
 manual = json.load(open('manual_glosses.json', encoding='utf-8')) if os.path.exists('manual_glosses.json') else {}
+# Per-sense English labels, one per example sentence, keyed by card id. Written by hand
+# because the DTZ numbers its senses but never names them.
+labels = json.load(open('sense_labels.json', encoding='utf-8')) if os.path.exists('sense_labels.json') else {}
 FIX_ARTICLE = {'Ratschlag': 'der', 'Schinken': 'der'}   # article omitted in the source PDF
 
 # Nouns whose meaning depends on the gender. The frequency dictionary lists only one of
@@ -155,6 +171,18 @@ for c in cards:
     sense = GENDER_SENSE.get((c['article'], c['lemma'])) or SENSE_FIX.get(c['lemma'])
     if sense:
         c['en'], c['src'] = sense, 'manual'
+
+def senses_for(card_id, c):
+    """Pair each example with the meaning it illustrates. A card with one example needs no
+    label - the gloss already names its meaning. Sentences sharing a label are one sense
+    shown twice, and the app groups them."""
+    ex = c['ex']
+    if not ex:
+        return []
+    lab = labels.get(card_id)
+    if not lab or len(lab) != len(ex):
+        lab = [None] * len(ex)
+    return [{'en': (l or None), 'ex': s} for l, s in zip(lab, ex)]
 
 # display form: article + lemma for nouns, plain lemma otherwise
 def display(c):
@@ -195,6 +223,7 @@ for c in sorted(cards, key=sort_key):
         'de': display(c),
         'en': c['en'],
         'ex': c['ex'],
+        'sn': senses_for(display(c), c),
         'kind': c['kind'],
         'pl': (c['plural'] or '').replace('"', '\u00a8') or None,   # -"e  ->  -¨e
         'forms': c['forms'],

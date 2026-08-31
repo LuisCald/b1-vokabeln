@@ -202,7 +202,30 @@ function highlight(sentence, de){
   const rx = new RegExp('(' + stem.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\w*)', 'gi');
   return esc(sentence).replace(rx, '<b>$1</b>');
 }
-const esc = s => s.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+const esc = s => String(s).replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+
+const SENSES_SHOWN = 3;
+
+/** Render a word's meanings, each with the sentence that shows it. Consecutive senses
+    sharing a label are one meaning illustrated twice, so they are grouped. Only the
+    first few are shown; the rest sit behind a "+n more" toggle so the card stays short. */
+function renderSenses(sn, de){
+  const groups = [];
+  for(const s of sn){
+    const last = groups[groups.length - 1];
+    if(last && last.en === s.en) last.ex.push(s.ex);
+    else groups.push({ en:s.en, ex:[s.ex] });
+  }
+  const hidden = Math.max(0, groups.length - SENSES_SHOWN);
+  const body = groups.map((g, i) =>
+    `<div class="sense${i >= SENSES_SHOWN ? ' extra' : ''}">` +
+      (g.en ? `<div class="sense-en">${esc(g.en)}</div>` : '') +
+      g.ex.map(x => `<div class="sense-ex">${highlight(x, de)}</div>`).join('') +
+    `</div>`).join('');
+  return body + (hidden
+    ? `<button type="button" class="more">+${hidden} more meaning${hidden > 1 ? 's' : ''}</button>`
+    : '');
+}
 
 /* ---------------- typed answers ---------------- */
 
@@ -350,8 +373,16 @@ function renderCard(){
   $('#cMeta').textContent = bits.join('  ·  ');
 
   const ex = $('#cEx');
-  if(S.set.showEx && c.ex){ ex.innerHTML = highlight(c.ex, c.de); ex.classList.remove('hidden'); }
-  else ex.classList.add('hidden');
+  const senses = (c.sn && c.sn.length) ? c.sn
+               : (c.ex || []).map(s => ({ en:null, ex:s }));
+  if(S.set.showEx && senses.length){
+    ex.innerHTML = renderSenses(senses, c.de);
+    ex.classList.remove('hidden', 'open');
+    const more = ex.querySelector('.more');
+    if(more) more.onclick = e => { e.stopPropagation(); ex.classList.add('open'); more.remove(); };
+  }else{
+    ex.classList.add('hidden');
+  }
 
   $('#cBack').classList.add('hidden');
   $('#grades').classList.add('hidden');

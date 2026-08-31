@@ -1,0 +1,835 @@
+{
+"und": [
+"and",
+"and"
+],
+"in": [
+"in (a place)",
+"on (a floor)",
+"into (a place)",
+"in (after a period)",
+"in (a month); on (holiday)",
+"in (a situation)",
+"into (starting school)"
+],
+"zu": [
+"to (a place)",
+"at (home)",
+"on (foot)",
+"to (someone's place)",
+"to (school)",
+"too (excessively)",
+"at (a price)",
+"with (a meal)",
+"to (a score)",
+"to (before an infinitive)",
+"to (before an infinitive)"
+],
+"haben": [
+"to have (a feeling)",
+"to have (time)",
+"to have, own",
+"to have (order, get)",
+"to have (consist of)",
+"to have (to do)",
+"to have it (good)"
+],
+"werden": [
+"to get, become (weather)",
+"to turn (an age)",
+"to become, go (mad)",
+"to become (a profession)"
+],
+"von": [
+"from (a place)",
+"from (an activity)",
+"of (belonging to)",
+"from (a date)",
+"from ... on (time)",
+"from ... to (a span)"
+],
+"nicht": [
+"not (negating a verb)",
+"not (so good)",
+"not at all",
+"not (that is not so)"
+],
+"mit": [
+"with (a person)",
+"with (having, featuring)",
+"with (an ingredient)",
+"including, counting",
+"by (transport)"
+],
+"es": [
+"it (a thing)",
+"it (referring back)",
+"it (impersonal subject)",
+"it is (identifying)",
+"it (in 'how are you')",
+"it (anticipating a clause)",
+"it (anticipating a clause)"
+],
+"auch": [
+"too, also",
+"also, as well",
+"even (if)",
+"anyway, after all"
+],
+"auf": [
+"on (a surface)",
+"on, in (the street)",
+"in (the countryside)",
+"at (an event)",
+"in response to",
+"in (a language)",
+"to (school)"
+],
+"für": [
+"for (someone)",
+"for, belonging to",
+"for (a group)",
+"for (a price)",
+"for, considering",
+"for, instead of",
+"for, to (in my view)",
+"for (a period)"
+],
+"an": [
+"at (the beginning)",
+"on (a day)",
+"at (a place)",
+"at (an institution)",
+"best (am besten)",
+"on (switched on)"
+],
+"so": [
+"like this",
+"like this",
+"such (a)",
+"as … as (possible)",
+"about, around (a time)",
+"or so",
+"for free, just like that",
+"right, well (starting a turn)",
+"so (to that degree)",
+"right, that's it",
+"as … as (comparison)",
+"not that, not so (with nicht)",
+"in general (Was macht ihr so?)"
+],
+"können": [
+"can, be able to",
+"can (possibility)",
+"may (permission)",
+"can (request)",
+"to know (a language)",
+"may, might (possibility)"
+],
+"als": [
+"when (in the past)",
+"as (sowohl … als auch)",
+"than (comparison)",
+"than (comparison)"
+],
+"ja": [
+"yes",
+"yes? (answering a call)",
+"yes, all right",
+"really? (surprise)",
+"(softening: I would like to)",
+"as you know",
+"(emphasis: what a …)"
+],
+"wie": [
+"how (what is it called)",
+"how (long)",
+"as (comparison)",
+"how (in what way)",
+"pardon? (Wie bitte)",
+"how (do you like)"
+],
+"bei": [
+"near",
+"at (someone's home)",
+"with us, in our country",
+"on (one's person)",
+"during, while"
+],
+"oder": [
+"or",
+"either … or"
+],
+"aber": [
+"but",
+"but, yet",
+"however (mid-sentence)",
+"but (now)",
+"but (unfortunately)",
+"(emphatic: why yes)",
+"(emphasis: how well you play)"
+],
+"dann": [
+"then, afterwards",
+"then (but then)",
+"in that case",
+"then (consequence)",
+"then (by that point)"
+],
+"man": [
+"one, you (impersonal)",
+"one, you (impersonal)"
+],
+"da": [
+"there (place)",
+"there (in what you say)",
+"then, at that moment",
+"in that case",
+"since, because",
+"there (you are)",
+"that one (there)"
+],
+"sein": [
+"to be (a profession)",
+"to be (identifying)",
+"to be (a state)",
+"to be (an age)",
+"to be (a day)",
+"to be (an appointment)",
+"to be (a time, an event)",
+"to be (a location)",
+"to be (too expensive)",
+"to be (with zu + infinitive)",
+"to feel (Mir ist kalt)"
+],
+"noch": [
+"still",
+"not yet",
+"another, more",
+"anything else",
+"first, still (beforehand)",
+"in addition, as well",
+"only (nur noch)",
+"only … left",
+"still (a few more)",
+"still, yet (may come)"
+],
+"nach": [
+"to (a place)",
+"home (nach Hause)",
+"after (a time)",
+"past (the hour)"
+],
+"was": [
+"what",
+"what (would you like)",
+"what (in an indirect question)",
+"something, anything (etwas)"
+],
+"also": [
+"so, well (starting a turn)",
+"so, therefore",
+"really (emphasis)"
+],
+"aus": [
+"out of",
+"from (origin)",
+"from (a period)",
+"made of",
+"out of (a motive)"
+],
+"nur": [
+"only (a price)",
+"only, just",
+"only (a time)",
+"only (a quantity)"
+],
+"müssen": [
+"must, have to",
+"must (an obligation)",
+"have to (a routine)",
+"not have to (with nicht)"
+],
+"sagen": [
+"to say",
+"to tell",
+"to say (how do you say)",
+"to tell, mention",
+"say, tell me (Sag mal)"
+],
+"um": [
+"at (a time)",
+"around (a corner)",
+"by (an amount)"
+],
+"über": [
+"above",
+"across",
+"via (a route)",
+"over (a period)",
+"over, more than; about (a topic)"
+],
+"machen": [
+"to do",
+"to make (food)",
+"to make (the beds)",
+"to heat up, warm",
+"to give (pleasure)",
+"to cause (worry)",
+"to do (in my place)",
+"to do (nothing to be done)",
+"to matter (Das macht nichts)",
+"to come to (a total)"
+],
+"schon": [
+"already",
+"already (sooner than expected)",
+"already (more than)",
+"come on, hurry up",
+"surely, it will be fine",
+"(concessive: I would like to, but)",
+"(contrast: I do)"
+],
+"vor": [
+"ago",
+"in front of",
+"with, from (a cause)",
+"above all (vor allem)"
+],
+"durch": [
+"through (a space)",
+"through (a street)",
+"through, throughout (a period)",
+"through, by means of"
+],
+"kommen": [
+"to come from",
+"to come along",
+"to come, visit",
+"to come (to a city)",
+"to start (school)",
+"to come, arrive",
+"to be next (dran)",
+"to go, belong (a place)",
+"to get (an idea)"
+],
+"jetzt": [
+"now",
+"until now",
+"from now on",
+"by now, already",
+"now (as opposed to before)"
+],
+"sollen": [
+"to be to (an instruction)",
+"should (asking)",
+"to be supposed to (reported)",
+"should (conditional)"
+],
+"wollen": [
+"to want to (become)",
+"to want (an offer)",
+"to want to (past)",
+"to want to (as a child)",
+"to intend, mean"
+],
+"ganz": [
+"whole, entire",
+"completely",
+"quite, rather",
+"quite, entirely (sure)",
+"intact, unbroken"
+],
+"immer": [
+"always",
+"still (immer noch)",
+"more and more (immer + comparative)"
+],
+"gehen": [
+"to go, walk",
+"to go to (school)",
+"to leave",
+"to go abroad",
+"to leave, depart (a train)",
+"to go, work out",
+"to run correctly (a clock)",
+"to be possible",
+"to fit",
+"to face (a window)",
+"to lead (a way)",
+"to be (how are you)",
+"to be OK (Es geht)",
+"to be about (worum es geht)",
+"to work, function",
+"to be done, work",
+"to be acceptable"
+],
+"hier": [
+"here (place)",
+"from here",
+"here (handing something over)",
+"this is (on the phone)"
+],
+"doch": [
+"yes (contradicting a negative)",
+"after all",
+"(seeking agreement: aren't you)",
+"(encouraging: do come)",
+"(suggestion: why not ask)",
+"(wish: if only)"
+],
+"bis": [
+"as far as, to",
+"until (when)",
+"see you (Bis gleich)",
+"up to (a maximum)",
+"to (a range)",
+"until (conjunction)"
+],
+"groß": [
+"big, large",
+"tall",
+"too big (a size)",
+"grown up",
+"much (großen Hunger)"
+],
+"das Mal": [
+"time, occasion",
+"time (the first time)",
+"time (until next time)"
+],
+"gut": [
+"good",
+"well",
+"good, not spoiled",
+"well (feeling)",
+"good (weather)",
+"better",
+"best",
+"good, all right (agreeing)",
+"good (in greetings)",
+"good (in wishes)",
+"good (in wishes)"
+],
+"wissen": [
+"to know (a fact)",
+"to know (by chance)",
+"to know (that)",
+"to know (how, from where)"
+],
+"neu": [
+"new",
+"new, another",
+"news to me"
+],
+"sehen": [
+"to see (eyesight)",
+"to see, watch",
+"to see, meet",
+"to see, look at",
+"look! (imperative)",
+"to look after, check on",
+"to see (we'll see)",
+"to look like (ähnlich)"
+],
+"lassen": [
+"to leave (something somewhere)",
+"to have something done",
+"to let, allow",
+"to leave (standing)",
+"to leave, put",
+"to have something done",
+"to leave (on their own)",
+"to leave (in peace)"
+],
+"unter": [
+"below, under",
+"under, beneath"
+],
+"denn": [
+"because, for",
+"then (in a question)"
+],
+"stehen": [
+"to stand",
+"to be (on the table)",
+"to be standing, waiting",
+"to be parked",
+"to say (in the paper)",
+"to be set to",
+"to be (a score)",
+"to suit (clothes)"
+],
+"die Zeit": [
+"time (having time)",
+"time (plenty of)",
+"time (what time)",
+"time (a period)"
+],
+"wo": [
+"where",
+"where",
+"where"
+],
+"lang": [
+"long (measurement)",
+"long (a letter)",
+"too long (clothing)"
+],
+"eigentlich": [
+"actually, originally",
+"actually, in fact",
+"actually (in a question)"
+],
+"damit": [
+"so that",
+"with it"
+],
+"oben": [
+"upstairs, up",
+"at the top"
+],
+"die Frau": [
+"woman",
+"wife",
+"Mrs (in address)"
+],
+"das Kind": [
+"child (offspring)",
+"child (a baby)",
+"child (children)"
+],
+"etwas": [
+"something",
+"something (else)",
+"something (to write with)",
+"a little, a while",
+"such a thing (so etwas)",
+"some, a little"
+],
+"nun": [
+"now, well (that's how it is)",
+"now (finally)"
+],
+"finden": [
+"to find, get",
+"to find, locate",
+"to find, think (an opinion)"
+],
+"nichts": [
+"nothing",
+"nothing (definite)",
+"nothing (to write with)",
+"it doesn't matter (macht nichts)"
+],
+"bleiben": [
+"to stay (at home)",
+"to remain (closed)",
+"to stay (on the line)",
+"to remain (seated)",
+"to stay (a period)"
+],
+"klein": [
+"small",
+"small, young",
+"short, little (a trip)"
+],
+"zwischen": [
+"between (a position)",
+"between (places)",
+"between (times)",
+"between (dates)"
+],
+"alt": [
+"old (age)",
+"old, long-standing"
+],
+"gegen": [
+"into, against (a collision)",
+"against (a rule)",
+"for, against (a remedy)",
+"against, in return for (cash)",
+"around (a time)",
+"against, opposed to",
+"against (an opponent)"
+],
+"liegen": [
+"to lie, be (placed)",
+"to lie (in bed)",
+"to lie, be (in hospital)",
+"to lie, be situated",
+"to lie (snow)"
+],
+"ohne": [
+"without (an ingredient)",
+"without (a thing)",
+"without (doing something)",
+"without (a clause)"
+],
+"nein": [
+"no",
+"no"
+],
+"heute": [
+"today",
+"from today",
+"today (in a week's time)",
+"today, nowadays"
+],
+"weit": [
+"far (distance)",
+"far (not far)",
+"how far (progress)",
+"too loose (clothing)"
+],
+"heißen": [
+"to be called (a name)",
+"to be called (in a language)",
+"to mean"
+],
+"denken": [
+"to think (be thinking)",
+"to think (an opinion)",
+"to think about (a topic)",
+"to remember (daran denken)",
+"to think of (someone's opinion)",
+"to think of, miss",
+"to have in mind, plan"
+],
+"eben": [
+"just now",
+"simply, just (that's how it is)"
+],
+"erst": [
+"only (as little as)",
+"only (not until)",
+"first (before anything else)",
+"at first"
+],
+"natürlich": [
+"of course",
+"of course"
+],
+"ob": [
+"whether",
+"whether"
+],
+"hoch": [
+"high (measurement)",
+"high up",
+"high (prices)"
+],
+"der Mann": [
+"man",
+"husband"
+],
+"einfach": [
+"one-way (a ticket)",
+"simple, easy",
+"simply, just (emphasis)"
+],
+"vielleicht": [
+"perhaps, maybe",
+"perhaps, maybe",
+"really, incredibly (emphasis)",
+"perhaps, by any chance"
+],
+"einmal": [
+"once",
+"again (noch einmal)",
+"suddenly (auf einmal)",
+"at once, all at the same time",
+"sometime, again",
+"once, at one time",
+"just (softening a request)"
+],
+"nehmen": [
+"to take, have (ordering)",
+"to take (medicine)",
+"to take (remove)",
+"to take (transport)",
+"to take (leave, holiday)"
+],
+"tun": [
+"to do (have things to do)",
+"to do (for someone)",
+"to put",
+"to be sorry (leidtun)",
+"to hurt (wehtun)",
+"to do good"
+],
+"seit": [
+"since (a date)",
+"since (a clause)"
+],
+"dürfen": [
+"may, be allowed to",
+"may not (prohibition)",
+"should not have",
+"may (offering)",
+"may, should (a condition)"
+],
+"glauben": [
+"to think, believe",
+"to believe (someone)"
+],
+"halten": [
+"to hold",
+"to stop (a train)",
+"to keep (closed)",
+"to keep to, obey",
+"to think of (an opinion)",
+"stop! (Halt!)",
+"to keep, last (food)"
+],
+"nennen": [
+"to call (by a name)",
+"to call (what is it called)"
+],
+"das Land": [
+"country",
+"countryside",
+"land (a plot)",
+"country (countries)"
+],
+"gleich": [
+"right away, in a moment",
+"the same (age)",
+"all the same, indifferent",
+"immediately, at once",
+"the same (day)"
+],
+"ersetzen": [
+"to reimburse, refund",
+"to replace, stand in for"
+],
+"mögen": [
+"to like",
+"would like (möchte)",
+"would like to (möchte)",
+"to be asked to (möchten)"
+],
+"die Frage": [
+"question",
+"out of the question (infrage)"
+],
+"gar": [
+"done, cooked",
+"at all (with nicht)"
+],
+"zeigen": [
+"to show",
+"to show (the way)",
+"to show",
+"to show, demonstrate"
+],
+"führen": [
+"to lead, guide",
+"to run, manage",
+"to lead (a score)",
+"to lead (a road)",
+"to conduct (a lawsuit)"
+],
+"die Hochzeit": [
+"wedding",
+"wedding"
+],
+"sprechen": [
+"to speak (louder)",
+"to speak (a language)",
+"to talk about",
+"to speak (on TV)",
+"to speak to (someone)"
+],
+"das Haus": [
+"house",
+"home (von zu Hause)",
+"home (nach Hause)",
+"home (zu Hause)"
+],
+"der Fall": [
+"case, situation",
+"case (auf jeden Fall)",
+"case (in case that)"
+],
+"bringen": [
+"to bring",
+"to take (someone somewhere)",
+"to carry, run (a report)"
+],
+"schön": [
+"beautiful, nice",
+"nice (weather)",
+"pleasant, nice (a stay)",
+"kind (greetings)",
+"(politeness: danke schön)",
+"good, glad (that)",
+"fine, all right",
+"nice (an evening)"
+],
+"die Arbeit": [
+"work, job",
+"job, employment"
+],
+"leben": [
+"to be alive",
+"to live, reside",
+"to live on, get by",
+"to live (with parents)"
+],
+"fahren": [
+"to travel, go (by transport)",
+"to drive",
+"to drive (a car)",
+"to drive (someone)"
+],
+"meinen": [
+"to think (an opinion)",
+"to think, mean"
+],
+"spät": [
+"late (what time is it)",
+"late",
+"late (too late)",
+"late (get up)",
+"late (afternoon)",
+"later",
+"later (in the future)"
+],
+"etwa": [
+"about, roughly",
+"about, roughly",
+"by any chance (in a question)"
+],
+"wer": [
+"who",
+"who",
+"whoever"
+],
+"fragen": [
+"to ask (a question)",
+"to ask for, after",
+"to wonder (sich fragen)"
+],
+"verbessern": [
+"to improve (something)",
+"to improve, get better"
+],
+"gerade": [
+"straight",
+"just now, at the moment"
+],
+"wichtig": [
+"important",
+"important"
+],
+"zwar": [
+"admittedly, it is true",
+"namely, to be precise (und zwar)"
+],
+"die Hand": [
+"hand",
+"hand",
+"hand"
+]
+}
