@@ -6,6 +6,7 @@ from xml.etree import ElementTree as ET
 
 NS = '{http://www.w3.org/1999/xhtml}'
 COL_SPLIT = 245.0
+Y_HEADER = 78.0        # anything above this is a running header, not an entry
 POS = r'der, die|der|die|das|verb|adj|adv|prep|conj|num|part|pron|no art|interj|art'
 ENTRY = re.compile(rf'^(?P<hw>.+?)\s+(?P<pos>{POS})\s+(?P<gloss>.+?)\s+(?P<rank>\d{{1,4}})$')
 
@@ -17,6 +18,10 @@ for page in root.iter(NS + 'page'):
         x, y = float(ln.get('xMin')), float(ln.get('yMin'))
         txt = " ".join((w.text or '') for w in ln.iter(NS + 'word')).strip()
         if not txt: continue
+        # Running page numbers sit alone at y=66.9 in the outer margin. On odd pages that
+        # is the right margin, so they sort first in column 2 and would otherwise be glued
+        # onto the last entry of column 1 ("Hochzeit die wedding 2832" + "157").
+        if y < Y_HEADER: continue
         col = 0 if x < COL_SPLIT else 1
         rows.append((col, y, x, txt))
     rows.sort(key=lambda r: (r[0], r[1]))

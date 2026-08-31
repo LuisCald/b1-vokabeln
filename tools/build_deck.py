@@ -111,12 +111,24 @@ import os
 manual = json.load(open('manual_glosses.json', encoding='utf-8')) if os.path.exists('manual_glosses.json') else {}
 FIX_ARTICLE = {'Ratschlag': 'der', 'Schinken': 'der'}   # article omitted in the source PDF
 
+# Nouns whose meaning depends on the gender. The frequency dictionary lists only one of
+# each pair, so both DTZ entries would otherwise inherit the same gloss.
+GENDER_SENSE = {
+    ('der', 'Leiter'): 'leader, manager',
+    ('die', 'Leiter'): 'ladder',
+    ('der', 'Teil'):   'part, section',
+    ('das', 'Teil'):   'component, piece',
+}
+
 for c in cards:
     c['src'] = 'freq' if c['en'] else None
     if not c['en'] and c['lemma'] in manual:
         c['en'], c['src'] = manual[c['lemma']], 'manual'
     if c['lemma'] in FIX_ARTICLE and not c['article']:
         c['article'], c['kind'] = FIX_ARTICLE[c['lemma']], 'noun'
+    sense = GENDER_SENSE.get((c['article'], c['lemma']))
+    if sense:
+        c['en'], c['src'] = sense, 'manual'
 
 # display form: article + lemma for nouns, plain lemma otherwise
 def display(c):
@@ -126,8 +138,22 @@ def display(c):
         return f"sich {c['lemma']}"
     return c['lemma']
 
+# Progress in the app is keyed by a card's position, so the order must stay stable across
+# rebuilds. Cards already in the published deck keep their slot; new ones sort by frequency
+# and are appended after.
+prev_order = {}
+if os.path.exists('deck_prev.json'):
+    for c in json.load(open('deck_prev.json', encoding='utf-8')):
+        prev_order.setdefault(c['de'], c['i'])
+
+def sort_key(c):
+    d = display(c)
+    if d in prev_order:
+        return (0, prev_order[d], 0)
+    return (1, c['rank'] is None, c['rank'] or 0)
+
 seen, deck = set(), []
-for c in sorted(cards, key=lambda c: (c['rank'] is None, c['rank'] or 0)):
+for c in sorted(cards, key=sort_key):
     if not c['en']:
         continue
     k = (display(c).lower(), c['en'])

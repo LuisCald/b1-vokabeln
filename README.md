@@ -94,6 +94,18 @@ python3 build_deck.py     # join both      -> deck.json
 - `manual_glosses.json` supplies English for the ~750 everyday DTZ words that fall outside
   the dictionary's top 4,034 (*Ampel*, *Zahnpasta*, *Altenheim* …).
 
+`build_deck.py` keeps the card order stable across rebuilds: any word already present in
+the published `deck.json` (read as `deck_prev.json`) keeps its slot, and only genuinely new
+words are appended. Progress is stored against a card's position, so a reordered deck would
+silently reassign someone's history to the wrong words.
+
+Two classes of correction are applied by hand in `build_deck.py`:
+
+- `FIX_ARTICLE` — nouns whose article the source PDF omits (*Ratschlag*, *Schinken*).
+- `GENDER_SENSE` — nouns whose meaning turns on the gender. The frequency dictionary lists
+  only one of each pair, so without this *die Leiter* (ladder) would inherit the gloss of
+  *der Leiter* (leader).
+
 After changing `deck.json`, bump `CACHE` in `sw.js` so phones fetch the new version.
 
 ## Sources
