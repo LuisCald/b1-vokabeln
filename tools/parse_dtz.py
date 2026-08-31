@@ -14,6 +14,18 @@ COL_SPLIT, HW_MAX_A, HW_MAX_B = 297.0, 145.0, 405.0
 BASE_A, BASE_B = 42.38, 304.59
 Y_TOP, Y_BOT, Y_CLUSTER = 90.0, 790.0, 3.0
 
+# "sich an," / "sich vor," continue a separable reflexive verb; "sich verlaufen," starts a
+# new one. Only a genuine separable prefix marks a continuation.
+def WRAPS(h):
+    """True when a headword breaks mid-entry. A trailing comma or slash continues a list
+    of forms, and a hyphen glued to a letter is a hyphenated line break ("hat ange-").
+    A standalone dash is a noun's plural marker ("der Keller, -") and ends the entry."""
+    return h.endswith((',', '/')) or re.search(r'\w-$', h) is not None
+
+SEP_PREFIX = re.compile(
+    r'^sich\s+(an|ab|auf|aus|bei|durch|ein|fest|fort|frei|her|hin|los|mit|nach|um|'
+    r'unter|vor|weg|weiter|wieder|zu|zurück|zusammen|\u00fcber),')
+
 root = ET.parse('dtz_bb.xml').getroot()
 
 raw = []                                   # (page, col, y, hx, hw_words, ex_words)
@@ -67,10 +79,37 @@ for r in rows:
         # far it is indented.
         plural_tail = (cur is not None and re.match(r'^[-–"]', hw_txt)
                        and cur['hw'].rstrip().endswith(','))
-        cont = (plural_tail) or (cur is not None and prev_had_hw and not is_prefix and not stem_above
+        # A separable reflexive verb wraps as "sich anstrengen, strengt" / "sich an,
+        # strengte sich an, hat sich angestrengt". The second row opens with "sich" but is
+        # a verb-form tail, not a new entry: the row above still lacks its auxiliary.
+        refl_tail = (cur is not None
+                     and SEP_PREFIX.match(hw_txt)
+                     and cur['hw'].startswith('sich ')
+                     and not re.search(r'\b(hat|ist)\b', cur['hw']))
+        # "... hat sich" is never a finished headword: the participle is on the next row.
+        dangling = cur is not None and re.search(r'\bsich$', cur['hw'].rstrip()) is not None
+        # A verb conjugation that wrapped: the row above ends on a 3rd-person form ("...,
+        # gibt" / "..., findet") with no auxiliary yet, and this row supplies "hat/ist ...".
+        # Nouns are excluded because their tail is a plural marker ("die Abbildung, -en").
+        # A DTZ verb entry always ends in its auxiliary ("hat/ist" + participle), so an
+        # entry that has begun listing forms (a comma) and stops at a 3rd-person form is
+        # certainly unfinished; whatever lowercase row follows completes it. The wrap can
+        # take three rows, so the auxiliary is not necessarily on the very next one.
+        # Nouns never match: their tail is a plural marker ("die Abbildung, -en").
+        verb_tail = (cur is not None
+                     and hw_txt[:1].islower()
+                     # a following noun entry ("der Kellner, -") is a new word, not a tail
+                     and not re.match(r'^(der|die|das)\b', hw_txt)
+                     and ',' in cur['hw']
+                     and not re.search(r'\b(hat|ist)\b', cur['hw'])
+                     and (cur['hw'].rstrip().endswith(',')
+                          or re.search(r'[a-zäöüß]t$', cur['hw'].rstrip())))
+        # "die Kita" + "(Kindertagesstätte), -s": a parenthetical gloss carrying the plural.
+        paren_tail = cur is not None and re.match(r'^\([^)]*\),\s*-', hw_txt) is not None
+        cont = plural_tail or refl_tail or dangling or verb_tail or paren_tail or (cur is not None and prev_had_hw and not is_prefix and not stem_above
                 and r['hx'] is not None and cur['hx'] is not None
                 and abs(r['hx'] - cur['hx']) < 5.0
-                and (cur['hw'].rstrip().endswith((',', '-', '/')) or not ex_txt))
+                and (WRAPS(cur['hw'].rstrip()) or not ex_txt))
         if cont:
             cur['hw'] = (cur['hw'] + ' ' + hw_txt).strip()
         else:

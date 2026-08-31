@@ -61,7 +61,8 @@ function nextInterval(st, q){
 }
 
 function grade(i, q){
-  const st = S.p[i] || { ef:2.5, iv:0, rep:0, due:0, lap:0, ok:0, no:0 };
+  const id = DECK[i].id;
+  const st = S.p[id] || { ef:2.5, iv:0, rep:0, due:0, lap:0, ok:0, no:0 };
   const iv = nextInterval(st, q);
 
   if(q < 3){
@@ -73,7 +74,7 @@ function grade(i, q){
     st.due = Date.now() + iv * DAY;
   }
   st.seen = Date.now();
-  S.p[i] = st;
+  S.p[id] = st;
   logToday('n'); if(q >= 3) logToday('ok');
   save();
   return st;
@@ -90,15 +91,15 @@ function inRange(c){
 const pool = () => DECK.filter(inRange);
 
 function dueList(now = Date.now()){
-  return pool().filter(c => { const st = S.p[c.i]; return st && st.due <= now && st.rep > 0; });
+  return pool().filter(c => { const st = S.p[c.id]; return st && st.due <= now && st.rep > 0; });
 }
 function relearnList(now = Date.now()){
-  return pool().filter(c => { const st = S.p[c.i]; return st && st.rep === 0 && st.seen; });
+  return pool().filter(c => { const st = S.p[c.id]; return st && st.rep === 0 && st.seen; });
 }
 function newList(){
   const used = (S.log[todayKey()] || {}).new || 0;
   const left = Math.max(0, S.set.newPerDay - used);
-  return pool().filter(c => !S.p[c.i]).slice(0, left);
+  return pool().filter(c => !S.p[c.id]).slice(0, left);
 }
 
 /* ---------------- session ---------------- */
@@ -110,9 +111,9 @@ function startSession(mode){
   if(mode === 'review'){
     q = [...relearnList(), ...dueList()];
   }else if(mode === 'hard'){
-    q = pool().filter(c => { const st = S.p[c.i]; return st && st.no > 0; })
+    q = pool().filter(c => { const st = S.p[c.id]; return st && st.no > 0; })
               .sort((a,b) => {
-                const A = S.p[a.i], B = S.p[b.i];
+                const A = S.p[a.id], B = S.p[b.id];
                 return (B.no/(B.ok+B.no)) - (A.no/(A.ok+A.no)) || B.no - A.no;
               });
   }else{
@@ -122,7 +123,7 @@ function startSession(mode){
   }
 
   if(!q.length){
-    const unlearned = pool().filter(c => !S.p[c.i]).length;
+    const unlearned = pool().filter(c => !S.p[c.id]).length;
     if(mode === 'hard')
       toast('No mistakes recorded yet — nothing to drill.');
     else if(mode === 'review')
@@ -135,7 +136,7 @@ function startSession(mode){
   }
   sess = { q: q.slice(0, lim).map(c => c.i), done:0, seen:0, ok:0, total:0, shown:false, cur:null, isNew:new Set() };
   sess.total = sess.q.length;
-  sess.q.forEach(i => { if(!S.p[i]) sess.isNew.add(i); });
+  sess.q.forEach(i => { if(!S.p[DECK[i].id]) sess.isNew.add(i); });
   show('study');
   nextCard();
 }
@@ -334,7 +335,7 @@ function scoreTyped(typed, card, answerIsGerman){
 
 function renderCard(){
   const c = DECK[sess.cur];
-  const st = S.p[c.i];
+  const st = S.p[c.id];
   const deFront = askGerman(c.i);
 
   $('#cKind').textContent = (sess.isNew.has(c.i) ? 'new · ' : '') +
@@ -426,7 +427,7 @@ function checkTyped(){
 function answer(q){
   if(!sess || !sess.shown) return;
   const i = sess.cur;
-  const wasNew = sess.isNew.has(i) && !S.p[i];
+  const wasNew = sess.isNew.has(i) && !S.p[DECK[i].id];
   if(wasNew) logToday('new');
   grade(i, q);
   sess.seen++; if(q >= 3) sess.ok++;
@@ -447,7 +448,7 @@ function syncMode(){
 function renderHome(){
   syncMode();
   const p = pool();
-  const learned = p.filter(c => { const st = S.p[c.i]; return st && st.rep > 0; }).length;
+  const learned = p.filter(c => { const st = S.p[c.id]; return st && st.rep > 0; }).length;
   const pct = p.length ? Math.round(learned / p.length * 100) : 0;
   $('#ringPct').textContent = pct + '%';
   $('#ringFg').style.strokeDashoffset = (326.7 * (1 - pct/100)).toFixed(1);
@@ -478,22 +479,22 @@ let filter = 'all';
 function renderList(){
   const term = $('#q').value.trim().toLowerCase();
   let items = pool();
-  if(filter === 'due')    items = items.filter(c => { const s = S.p[c.i]; return s && s.due <= Date.now(); });
-  else if(filter === 'weak')   items = items.filter(c => { const s = S.p[c.i]; return s && s.no > 0; });
-  else if(filter === 'unseen') items = items.filter(c => !S.p[c.i]);
+  if(filter === 'due')    items = items.filter(c => { const s = S.p[c.id]; return s && s.due <= Date.now(); });
+  else if(filter === 'weak')   items = items.filter(c => { const s = S.p[c.id]; return s && s.no > 0; });
+  else if(filter === 'unseen') items = items.filter(c => !S.p[c.id]);
   else if(filter !== 'all')    items = items.filter(c => c.kind === filter);
 
   if(term) items = items.filter(c =>
     c.de.toLowerCase().includes(term) || c.en.toLowerCase().includes(term));
 
   if(filter === 'weak'){
-    items.sort((a,b) => { const A = S.p[a.i], B = S.p[b.i]; return B.no - A.no; });
+    items.sort((a,b) => { const A = S.p[a.id], B = S.p[b.id]; return B.no - A.no; });
   }
 
   const box = $('#list');
   if(!items.length){ box.innerHTML = '<p class="empty">Nothing matches.</p>'; return; }
   box.innerHTML = items.slice(0, 400).map(c => {
-    const s = S.p[c.i];
+    const s = S.p[c.id];
     let d = 0;
     if(s) d = s.rep === 0 ? 1 : s.iv < 7 ? 2 : s.iv < 21 ? 3 : 4;
     const extra = s ? ` · ${s.ok}✓ ${s.no}✗` : '';
@@ -524,7 +525,7 @@ function renderStats(){
   const p = pool();
   let unseen = 0, learn = 0, young = 0, mature = 0;
   for(const c of p){
-    const s = S.p[c.i];
+    const s = S.p[c.id];
     if(!s) unseen++;
     else if(s.rep === 0) learn++;
     else if(s.iv < 21) young++;
@@ -539,7 +540,7 @@ function renderStats(){
   const buckets = new Array(14).fill(0);
   const t0 = new Date(); t0.setHours(0,0,0,0);
   for(const c of p){
-    const s = S.p[c.i];
+    const s = S.p[c.id];
     if(!s || s.rep === 0) continue;
     const d = Math.floor((s.due - +t0) / DAY);
     if(d >= 0 && d < 14) buckets[d]++;
@@ -550,10 +551,10 @@ function renderStats(){
     `<div><i style="height:${n/fmax*100}%" title="${n}"></i><span>${i===0?'now':i}</span></div>`).join('');
 
   // weakest words
-  const weak = p.filter(c => { const s = S.p[c.i]; return s && s.no > 0; })
-                .sort((a,b) => S.p[b.i].no - S.p[a.i].no).slice(0, 25);
+  const weak = p.filter(c => { const s = S.p[c.id]; return s && s.no > 0; })
+                .sort((a,b) => S.p[b.id].no - S.p[a.id].no).slice(0, 25);
   $('#weak').innerHTML = weak.length
-    ? weak.map(c => { const s = S.p[c.i];
+    ? weak.map(c => { const s = S.p[c.id];
         return `<div class="it"><span class="dot d1"></span><span class="de">${esc(c.de)}</span>` +
                `<span class="en">${esc(c.en)} · ${s.no}✗</span></div>`; }).join('')
     : '<p class="empty">No mistakes yet.</p>';
@@ -673,12 +674,37 @@ function bind(){
   });
 }
 
+/** Progress used to be keyed by a card's position in the deck. Rebuilding the deck can
+    add or drop words, which would silently reassign that history to the wrong cards, so
+    it is now keyed by a stable id. Each card carries its previous position for this
+    one-off remap; anything that no longer exists is dropped. */
+function migrateProgress(){
+  if(S.pv === 3) return;
+  const numeric = Object.keys(S.p).filter(k => /^\d+$/.test(k));
+  if(numeric.length){
+    const byPrev = new Map();
+    for(const c of DECK) if(c.pi !== null && c.pi !== undefined) byPrev.set(c.pi, c.id);
+    const moved = {};
+    let kept = 0;
+    for(const k of numeric){
+      const id = byPrev.get(+k);
+      if(id){ moved[id] = S.p[k]; kept++; }
+    }
+    for(const k in S.p) if(!/^\d+$/.test(k)) moved[k] = S.p[k];
+    S.p = moved;
+    console.info(`B1: migrated ${kept}/${numeric.length} words to stable keys`);
+  }
+  S.pv = 3;
+  save();
+}
+
 /* ---------------- boot ---------------- */
 
 fetch('deck.json')
   .then(r => r.json())
   .then(d => {
     DECK = d;
+    migrateProgress();
     bind();
     save();                       // persist the settings upgrade above, if it ran
     show('home');

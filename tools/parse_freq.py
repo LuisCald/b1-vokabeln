@@ -42,13 +42,16 @@ for ln in lines:
         skipped.append(ln); continue
     hw = m['hw'].strip()
     rec = {'pos': m['pos'], 'en': m['gloss'].strip(), 'rank': int(m['rank'])}
-    for variant in [v.strip() for v in hw.split(',')]:   # "Abbildung, Abb."
-        if variant and variant not in freq:
-            freq[variant] = rec
-    freq[hw] = rec
+    # A headword can appear several times with different parts of speech ("sein" is both
+    # the verb 'to be' and the possessive 'his'). Keep every sense; build_deck.py picks
+    # the one matching the part of speech the DTZ entry implies.
+    keys = {hw} | {v.strip() for v in hw.split(',') if v.strip()}
+    for k in keys:
+        freq.setdefault(k, []).append(rec)
 
-print(f"index lines: {len(lines)}   parsed: {len(freq)} keys   skipped: {len(skipped)}")
+multi = sum(1 for v in freq.values() if len(v) > 1)
+print(f"index lines: {len(lines)}   parsed: {len(freq)} keys   skipped: {len(skipped)}   headwords with >1 sense: {multi}")
 for s in skipped[:12]: print('   SKIP:', s[:80])
 json.dump(freq, open('freq.json','w'), ensure_ascii=False, indent=1)
-for w in ('Abend','ähnlich','abholen','arbeiten','Haus','gehen','schön'):
-    print(f"  {w:<10} -> {freq.get(w)}")
+for w in ('Abend','sein','halt','Halt','recht'):
+    print(f"  {w:<8} -> {freq.get(w)}")

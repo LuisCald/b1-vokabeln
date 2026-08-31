@@ -56,23 +56,46 @@ def analyse(hw):
     return {'article': article, 'lemma': lemma, 'plural': plural, 'number': number,
             'forms': forms, 'reflexive': reflexive}
 
-def first_example(ex):
-    """The DTZ gives up to ~9 numbered examples; keep the first as the card sentence."""
-    if not ex: return ''
-    ex = ex.strip()
-    m = re.match(r'^1\.\s*(.*?)(?=\s+2\.\s|$)', ex, re.S)
-    s = m.group(1) if m else ex
-    s = re.sub(r'\s+\d\.\s.*$', '', s).strip()
-    return re.sub(r'\s+', ' ', s)
+def all_examples(ex):
+    """The DTZ gives up to nine numbered senses per headword. Keep them all: the gloss
+    often describes a later sense than the first example illustrates (the particle `halt`
+    is glossed "just, simply" but its first example is the interjection "Halt!")."""
+    if not ex:
+        return []
+    ex = re.sub(r'\s+', ' ', ex.strip())
+    parts = re.split(r'(?:^|\s)(\d)\.\s', ' ' + ex)
+    if len(parts) < 3:
+        return [ex]
+    out = []
+    for i in range(1, len(parts) - 1, 2):
+        s = parts[i + 1].strip()
+        if s:
+            out.append(s)
+    return out
+
+NOUN_POS = {'der', 'die', 'das', 'der, die'}
 
 def lookup(a):
-    """Look up the gloss. German capitalisation is meaningful, so a lowercase headword
-    must not match a capitalised noun (adverb `recht` is not the noun `Recht`)."""
+    """Find the gloss. German capitalisation is meaningful, so a lowercase headword must
+    not match a capitalised noun (adverb `recht` is not the noun `Recht`). Where a
+    headword has several senses, pick the one matching the part of speech the DTZ entry
+    implies: `sein` with conjugated forms is the verb 'to be', not the possessive 'his'."""
     l = a['lemma']
-    if not l: return None
+    if not l:
+        return None
+    cands = freq.get(l[0].upper() + l[1:]) or freq.get(l) if a['article'] else freq.get(l)
+    if not cands:
+        return None
+    if len(cands) == 1:
+        return cands[0]
     if a['article']:
-        return freq.get(l[0].upper() + l[1:]) or freq.get(l)
-    return freq.get(l)
+        best = ([c for c in cands if c['pos'] == a['article']]
+                or [c for c in cands if c['pos'] in NOUN_POS])
+    elif a['forms']:
+        best = [c for c in cands if c['pos'] == 'verb']
+    else:
+        best = []
+    return min(best or cands, key=lambda c: c['rank'])
 
 cards, hit = [], 0
 for e in dtz:
@@ -92,7 +115,7 @@ for e in dtz:
         'plural': a['plural'], 'forms': a['forms'], 'reflexive': a['reflexive'],
         'number': a['number'],
         'kind': kind, 'en': (f or {}).get('en'), 'rank': (f or {}).get('rank'),
-        'ex': first_example(e['ex']), 'sub': e['sub'],
+        'ex': all_examples(e['ex']), 'sub': e['sub'],
     })
 
 print(f"cards: {len(cards)}   with English gloss: {hit} ({hit/len(cards)*100:.1f}%)   missing: {len(cards)-hit}")
@@ -102,7 +125,7 @@ print("with example:", sum(1 for c in cards if c['ex']))
 json.dump(cards, open('cards_draft.json','w'), ensure_ascii=False, indent=1)
 print("\n--- samples ---")
 for c in cards[:6] + [c for c in cards if c['lemma'] in ('Haus','arbeiten','ähnlich')][:3]:
-    print(f"  {c['de'][:38]:<38} | {str(c['article'] or ''):<4} {c['lemma'][:18]:<18} | {c['kind']:<5} | {str(c['en'])[:28]:<28} | r={c['rank']} | {c['ex'][:38]}")
+    print(f"  {c['de'][:38]:<38} | {str(c['article'] or ''):<4} {c['lemma'][:18]:<18} | {c['kind']:<5} | {str(c['en'])[:28]:<28} | r={c['rank']} | {(c['ex'][0] if c['ex'] else '')[:38]}")
 print("\n--- missing gloss (first 25) ---")
 print([c['lemma'] for c in cards if not c['en']][:25])
 
@@ -113,6 +136,9 @@ FIX_ARTICLE = {'Ratschlag': 'der', 'Schinken': 'der'}   # article omitted in the
 
 # Nouns whose meaning depends on the gender. The frequency dictionary lists only one of
 # each pair, so both DTZ entries would otherwise inherit the same gloss.
+# A DTZ headword can cover a sense the frequency dictionary does not list at all.
+SENSE_FIX = {'halt': 'stop!; just, simply'}
+
 GENDER_SENSE = {
     ('der', 'Leiter'): 'leader, manager',
     ('die', 'Leiter'): 'ladder',
@@ -126,7 +152,7 @@ for c in cards:
         c['en'], c['src'] = manual[c['lemma']], 'manual'
     if c['lemma'] in FIX_ARTICLE and not c['article']:
         c['article'], c['kind'] = FIX_ARTICLE[c['lemma']], 'noun'
-    sense = GENDER_SENSE.get((c['article'], c['lemma']))
+    sense = GENDER_SENSE.get((c['article'], c['lemma'])) or SENSE_FIX.get(c['lemma'])
     if sense:
         c['en'], c['src'] = sense, 'manual'
 
@@ -162,6 +188,10 @@ for c in sorted(cards, key=sort_key):
     seen.add(k)
     deck.append({
         'i': len(deck),
+        # Stable storage key. Progress is saved against this, not the array position, so
+        # a rebuild that adds or drops a word cannot reassign anyone's history.
+        'id': display(c),
+        'pi': prev_order.get(display(c)),      # previous position, for the one-off migration
         'de': display(c),
         'en': c['en'],
         'ex': c['ex'],
@@ -177,7 +207,8 @@ print(f"\nFINAL DECK: {len(deck)} cards")
 print("  ranked (frequency-ordered):", sum(1 for d in deck if d['rank']))
 print("  unranked (DTZ-only):", sum(1 for d in deck if not d['rank']))
 print("  with example sentence:", sum(1 for d in deck if d['ex']))
+print("  total example sentences:", sum(len(d['ex']) for d in deck))
 print("  kinds:", Counter(d['kind'] for d in deck).most_common())
 print("\n  first 8 (most frequent):")
 for d in deck[:8]:
-    print(f"    {d['de']:<22} {d['en'][:34]:<34} {d['ex'][:44]}")
+    print(f"    {d['de']:<22} {d['en'][:34]:<34} {(d['ex'][0] if d['ex'] else '')[:44]}")
