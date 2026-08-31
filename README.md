@@ -16,7 +16,9 @@ Pick how you want to answer with the switch at the top of the home screen:
 
 Then choose a session:
 
-- **Study** — mixes cards that are due with a capped number of new ones.
+- **Study** — mixes cards that are due with new ones. New cards are unlimited by default;
+  session length (default 30) is what actually bounds a sitting. Set a daily new-card cap
+  in Settings if you would rather pace the intake.
 - **Review only** — no new cards, just what is due.
 - **Drill worst** — the words you get wrong most, ignoring the schedule.
 

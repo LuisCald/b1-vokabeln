@@ -5,7 +5,7 @@
 
 const KEY = 'b1v.state.v1';
 const DAY = 86400000;
-const DEFAULTS = { dir:'de', newPerDay:20, sessLen:30, range:'0', showEx:true, typing:'off' };
+const DEFAULTS = { dir:'de', newPerDay:9999, sessLen:30, range:'0', showEx:true, typing:'off', sv:2 };
 
 let DECK = [];
 let S = load();
@@ -16,7 +16,11 @@ let sess = null;
 function load(){
   try{
     const raw = JSON.parse(localStorage.getItem(KEY) || '{}');
-    return { p: raw.p || {}, log: raw.log || {}, set: Object.assign({}, DEFAULTS, raw.set || {}) };
+    const st = { p: raw.p || {}, log: raw.log || {}, set: Object.assign({}, DEFAULTS, raw.set || {}) };
+    // One-off upgrade: drop the old 20-new-cards-a-day cap, which stranded people with
+    // "nothing due" once they had worked through it.
+    if(raw.set && !raw.set.sv){ st.set.newPerDay = 9999; st.set.sv = 2; }
+    return st;
   }catch{
     return { p:{}, log:{}, set:Object.assign({}, DEFAULTS) };
   }
@@ -118,7 +122,15 @@ function startSession(mode){
   }
 
   if(!q.length){
-    toast(mode === 'hard' ? 'No mistakes recorded yet.' : 'Nothing due — try "Study" for new cards.');
+    const unlearned = pool().filter(c => !S.p[c.i]).length;
+    if(mode === 'hard')
+      toast('No mistakes recorded yet — nothing to drill.');
+    else if(mode === 'review')
+      toast(unlearned ? 'Nothing due. Press Study to start new words.' : 'Nothing due right now.');
+    else if(unlearned)
+      toast(`Today's new-card limit (${S.set.newPerDay}) is used up. Raise it in Settings.`);
+    else
+      toast('Nothing due, and every word in range has been started.');
     return;
   }
   sess = { q: q.slice(0, lim).map(c => c.i), done:0, seen:0, ok:0, total:0, shown:false, cur:null, isNew:new Set() };
@@ -668,6 +680,7 @@ fetch('deck.json')
   .then(d => {
     DECK = d;
     bind();
+    save();                       // persist the settings upgrade above, if it ran
     show('home');
     if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
   })

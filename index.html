@@ -35,7 +35,7 @@
 
     <div class="tiles">
       <div class="tile"><b id="tDue">0</b><span>due now</span></div>
-      <div class="tile"><b id="tNew">0</b><span>new today</span></div>
+      <div class="tile"><b id="tNew">0</b><span>new left</span></div>
       <div class="tile"><b id="tStreak">0</b><span>day streak</span></div>
       <div class="tile"><b id="tAcc">–</b><span>accuracy</span></div>
     </div>
@@ -163,8 +163,9 @@
       <label class="set">
         <span>New cards / day</span>
         <select id="sNew">
-          <option>5</option><option>10</option><option selected>20</option>
+          <option>5</option><option>10</option><option>20</option>
           <option>30</option><option>50</option><option>100</option>
+          <option value="9999" selected>No limit</option>
         </select>
       </label>
 
