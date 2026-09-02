@@ -3,7 +3,7 @@
 A spaced-repetition flashcard trainer for the German **DTZ / B1** vocabulary, built to run
 on a phone. Works offline, stores progress locally, no account and no backend.
 
-**2,640 cards** — every word from the official DTZ *Alphabetische Wortliste*, each with an
+**2,670 cards** — every word from the official DTZ *Alphabetische Wortliste*, each with an
 English gloss, gender and plural, principal parts for verbs, an authentic example sentence,
 and a corpus frequency rank used to order the deck so the most useful words come first.
 
@@ -13,6 +13,18 @@ Pick how you want to answer with the switch at the top of the home screen:
 
 - **Tap to reveal** — flip the card and grade yourself. Fast, good on a phone in a queue.
 - **Type the answer** — write the translation and get a similarity score before grading.
+
+Then pick a **word list**. *Whole deck* is the default; the chips below it narrow every
+screen — study, browse and statistics — to one list:
+
+| | |
+|---|---|
+| **Connectors** *(Verbindungswörter)* | `obwohl`, `sonst`, `trotzdem`, `sowie`, `jedoch`, `einerseits … andererseits` — the words that join two ideas, and what the writing and speaking parts of the exam are really marked on |
+| **Question words**, **Prepositions**, **Time**, **Place**, **Amounts** | the rest of the grammatical machinery |
+| **Work**, **Officialdom**, **Home**, **Health**, **Food**, **Travel**, **People**, **Money**, **School**, **Talking**, **Leisure**, **Feelings**, **Nature** | the DTZ's own subject areas |
+
+Each chip shows how many words it holds. A list and a frequency range combine, so
+*Connectors* + *Top 500* is the 48 most common linking words.
 
 Then choose a session:
 
@@ -105,6 +117,13 @@ python3 build_deck.py     # join both      -> deck.json
   the dictionary's top 4,034 (*Ampel*, *Zahnpasta*, *Altenheim* …).
 - `sense_labels.json` names each sense. The DTZ numbers its senses but never labels them,
   so all 1,024 multi-sense cards (2,764 sentences) are labelled by hand.
+- `word_categories.json` puts each word in its lists. The DTZ Wortliste is alphabetical and
+  carries no subject headings at all, so all 2,536 assignments are made by hand. A word can
+  be in several lists (`die Krankenkasse` is both *Health* and *Officialdom*); a word that
+  belongs nowhere in particular (`haben`, `machen`) is in none.
+- `extra_cards.json` holds 22 linking words the DTZ list happens to omit — `sowie`,
+  `jedoch`, `dennoch`, `zunächst`, `meiner Meinung nach` — with example sentences written
+  by hand. They are the only cards in the deck that do not come from the two sources.
 
 `build_deck.py` keeps the card order stable across rebuilds: any word already present in
 the published `deck.json` (read as `deck_prev.json`) keeps its slot, and only genuinely new

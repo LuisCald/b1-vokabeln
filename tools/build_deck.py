@@ -148,6 +148,12 @@ manual = json.load(open('manual_glosses.json', encoding='utf-8')) if os.path.exi
 # Per-sense English labels, one per example sentence, keyed by card id. Written by hand
 # because the DTZ numbers its senses but never names them.
 labels = json.load(open('sense_labels.json', encoding='utf-8')) if os.path.exists('sense_labels.json') else {}
+# Topic and function categories, one list of slugs per card id. Hand-assigned: the DTZ
+# list is alphabetical and carries no subject headings at all.
+wordcats = json.load(open('word_categories.json', encoding='utf-8')) if os.path.exists('word_categories.json') else {}
+# Connectors the DTZ list happens to omit (sowie, jedoch, dennoch ...). They are standard
+# B1 linking words and the exam asks for them in the writing and speaking parts.
+extras = json.load(open('extra_cards.json', encoding='utf-8')) if os.path.exists('extra_cards.json') else []
 FIX_ARTICLE = {'Ratschlag': 'der', 'Schinken': 'der'}   # article omitted in the source PDF
 
 # Nouns whose meaning depends on the gender. The frequency dictionary lists only one of
@@ -251,6 +257,17 @@ for c in sorted(cards, key=sort_key):
         'forms': c['forms'],
         'rank': c['rank'],
         'src': c['src'],
+        'cat': wordcats.get(display(c), []),
+    })
+
+for e in extras:
+    if e['de'].lower() in {k[0] for k in seen}:
+        continue
+    deck.append({
+        'i': len(deck), 'id': e['de'], 'pi': None, 'de': e['de'], 'en': e['en'],
+        'ex': [s_['ex'] for s_ in e['sn']], 'sn': e['sn'], 'kind': e['kind'],
+        'pl': None, 'forms': [], 'rank': None, 'src': 'extra',
+        'cat': wordcats.get(e['de'], ['connect']),
     })
 
 json.dump(deck, open('deck.json', 'w'), ensure_ascii=False, separators=(',', ':'))
@@ -260,6 +277,9 @@ print("  unranked (DTZ-only):", sum(1 for d in deck if not d['rank']))
 print("  with example sentence:", sum(1 for d in deck if d['ex']))
 print("  total example sentences:", sum(len(d['ex']) for d in deck))
 print("  kinds:", Counter(d['kind'] for d in deck).most_common())
+print("  extra connectors added:", sum(1 for d in deck if d['src'] == 'extra'))
+print("  with a category:", sum(1 for d in deck if d['cat']))
+print("  categories:", Counter(c for d in deck for c in d['cat']).most_common())
 print("\n  first 8 (most frequent):")
 for d in deck[:8]:
     print(f"    {d['de']:<22} {d['en'][:34]:<34} {(d['ex'][0] if d['ex'] else '')[:44]}")

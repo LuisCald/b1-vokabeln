@@ -5,7 +5,36 @@
 
 const KEY = 'b1v.state.v1';
 const DAY = 86400000;
-const DEFAULTS = { dir:'de', newPerDay:9999, sessLen:30, range:'0', showEx:true, typing:'off', sv:2 };
+const DEFAULTS = { dir:'de', newPerDay:9999, sessLen:30, range:'0', showEx:true,
+                   typing:'off', sv:2, cat:'' };
+
+/* Word lists. The DTZ Wortliste is alphabetical and has no subject headings, so every
+   card's categories are assigned by hand in tools/word_categories.json. The first few are
+   grammatical (a word joins ideas or asks a question); the rest are the DTZ's own topics.
+   The German names are shown as tooltips — the exam uses them. */
+const CATS = [
+  ['connect','Connectors',    'Verbindungswörter'],
+  ['qw',     'Question words','Fragewörter'],
+  ['prep',   'Prepositions',  'Präpositionen'],
+  ['time',   'Time',          'Zeit'],
+  ['place',  'Place',         'Ort & Richtung'],
+  ['num',    'Amounts',       'Mengen & Zahlen'],
+  ['work',   'Work',          'Arbeit & Beruf'],
+  ['office', 'Officialdom',   'Ämter & Behörden'],
+  ['home',   'Home',          'Wohnen'],
+  ['health', 'Health',        'Gesundheit & Körper'],
+  ['food',   'Food',          'Essen & Einkaufen'],
+  ['travel', 'Travel',        'Verkehr & Reisen'],
+  ['people', 'People',        'Menschen & Familie'],
+  ['money',  'Money',         'Geld & Finanzen'],
+  ['school', 'School',        'Schule & Ausbildung'],
+  ['comm',   'Talking',       'Sprechen & Schreiben'],
+  ['free',   'Leisure',       'Freizeit & Medien'],
+  ['feel',   'Feelings',      'Gefühle & Charakter'],
+  ['nature', 'Nature',        'Natur & Wetter'],
+];
+const CATNAME = Object.fromEntries(CATS.map(c => [c[0], c[1]]));
+const CATS_SHOWN = 8;
 
 let DECK = [];
 let S = load();
@@ -88,7 +117,9 @@ function inRange(c){
   if(r === 'dtz') return !c.rank;
   return !!c.rank && c.rank <= +r;
 }
-const pool = () => DECK.filter(inRange);
+const inCat = c => !S.set.cat || (c.cat && c.cat.indexOf(S.set.cat) >= 0);
+/** Every screen works on this: the chosen word list, narrowed by the frequency range. */
+const pool = () => DECK.filter(c => inCat(c) && inRange(c));
 
 function dueList(now = Date.now()){
   return pool().filter(c => { const st = S.p[c.id]; return st && st.due <= now && st.rep > 0; });
@@ -124,14 +155,15 @@ function startSession(mode){
 
   if(!q.length){
     const unlearned = pool().filter(c => !S.p[c.id]).length;
+    const where = S.set.cat ? ` in ${CATNAME[S.set.cat]}` : '';
     if(mode === 'hard')
-      toast('No mistakes recorded yet — nothing to drill.');
+      toast(`No mistakes recorded${where} yet — nothing to drill.`);
     else if(mode === 'review')
-      toast(unlearned ? 'Nothing due. Press Study to start new words.' : 'Nothing due right now.');
+      toast(unlearned ? 'Nothing due. Press Study to start new words.' : `Nothing due${where} right now.`);
     else if(unlearned)
       toast(`Today's new-card limit (${S.set.newPerDay}) is used up. Raise it in Settings.`);
     else
-      toast('Nothing due, and every word in range has been started.');
+      toast(`Nothing due, and every word${where} has been started.`);
     return;
   }
   sess = { q: q.slice(0, lim).map(c => c.i), done:0, seen:0, ok:0, total:0, shown:false, cur:null, isNew:new Set() };
@@ -476,8 +508,34 @@ function syncMode(){
   $$('#modeSeg button').forEach(b => b.classList.toggle('on', b.dataset.m === S.set.typing));
 }
 
+/** The word-list chips. Counts are live, so a chip also says how big that list is.
+    Only the first few are shown until "Show all" is pressed — nineteen chips would push
+    the Study button off a phone screen. */
+function renderCats(){
+  const box = $('#cats');
+  const n = {};
+  for(const c of DECK) if(inRange(c)) for(const k of (c.cat || [])) n[k] = (n[k] || 0) + 1;
+  const all = DECK.filter(inRange).length;
+  const chip = (slug, label, de, count, i) =>
+    `<button type="button" data-c="${slug}" title="${esc(de)}"` +
+    `${i >= CATS_SHOWN ? ' class="hide"' : ''}>${esc(label)} <i>${count}</i></button>`;
+  box.innerHTML = chip('', 'Whole deck', 'Ganze Liste', all, -1) +
+                  CATS.map(([s2, l, d], i) => chip(s2, l, d, n[s2] || 0, i)).join('');
+  const cur = S.set.cat;
+  [...box.children].forEach(b => {
+    b.classList.toggle('on', b.dataset.c === cur);
+    if(b.dataset.c === cur) b.classList.remove('hide');   // never hide the active list
+    b.onclick = () => { S.set.cat = b.dataset.c; save(); renderHome(); };
+  });
+  const hidden = box.querySelectorAll('button.hide').length;
+  $('#catsAll').textContent = box.classList.contains('open') || !hidden
+    ? 'Show fewer' : `Show all (${CATS.length + 1})`;
+  $('#catsAll').classList.toggle('hidden', !hidden && !box.classList.contains('open'));
+}
+
 function renderHome(){
   syncMode();
+  renderCats();
   const p = pool();
   const learned = p.filter(c => { const st = S.p[c.id]; return st && st.rep > 0; }).length;
   const pct = p.length ? Math.round(learned / p.length * 100) : 0;
@@ -491,7 +549,8 @@ function renderHome(){
   let ok = 0, n = 0;
   for(const k in S.p){ ok += S.p[k].ok; n += S.p[k].ok + S.p[k].no; }
   $('#tAcc').textContent = n ? Math.round(ok/n*100) + '%' : '–';
-  $('#homeFoot').textContent = `${learned} of ${p.length} words started`;
+  $('#homeFoot').textContent =
+    `${learned} of ${p.length} words started` + (S.set.cat ? ` in ${CATNAME[S.set.cat]}` : '');
 }
 
 function streak(){
@@ -594,6 +653,7 @@ function renderStats(){
 /* ---------------- settings ---------------- */
 
 function bindSettings(){
+  $('#sRange').options[0].textContent = `Whole deck (${DECK.length})`;
   const map = { sDir:'dir', sNew:'newPerDay', sLen:'sessLen', sRange:'range' };
   for(const [id, key] of Object.entries(map)){
     const el = document.getElementById(id);
@@ -686,6 +746,7 @@ function bind(){
   $$('#modeSeg button').forEach(b => b.onclick = () => {
     S.set.typing = b.dataset.m; save(); syncMode();
   });
+  $('#catsAll').onclick = () => { $('#cats').classList.toggle('open'); renderCats(); };
 
   $('#q').oninput = renderList;
   $$('#browseChips .chip').forEach(ch => ch.onclick = () => {

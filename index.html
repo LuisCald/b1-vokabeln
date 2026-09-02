@@ -45,6 +45,12 @@
       <button type="button" data-m="on">Type the answer</button>
     </div>
 
+    <div class="cats-hd">
+      <span>Word list</span>
+      <button type="button" class="cats-all" id="catsAll">Show all</button>
+    </div>
+    <div class="cats" id="cats" role="group" aria-label="Word list"></div>
+
     <button class="primary big" id="btnStudy">Study</button>
     <div class="row2">
       <button class="ghost" id="btnReview">Review only</button>
@@ -180,11 +186,11 @@
       <label class="set">
         <span>Word range</span>
         <select id="sRange">
-          <option value="0">Whole deck (2640)</option>
+          <option value="0">Whole deck</option>
           <option value="500">Top 500 most frequent</option>
           <option value="1000">Top 1000</option>
           <option value="1500">Top 1500</option>
-          <option value="dtz">DTZ-only words (not in top 4034)</option>
+          <option value="dtz">Rarer words (no frequency rank)</option>
         </select>
       </label>
 
