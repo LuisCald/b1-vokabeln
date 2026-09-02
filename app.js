@@ -39,6 +39,7 @@ const CATS_SHOWN = 8;
 let DECK = [];
 let S = load();
 let sess = null;
+let lastMode = 'mixed';
 
 /* ---------------- storage ---------------- */
 
@@ -89,7 +90,14 @@ function nextInterval(st, q){
   return Math.max(1, iv);
 }
 
-function grade(i, q){
+/** True when a passing grade should leave this card's schedule alone: practising a word
+    that is already learned and not yet due must not push it further away. A word you have
+    never started still graduates normally, so practice can also teach. */
+function keepsSchedule(st, q, practice){
+  return !!practice && q >= 3 && !!st && st.rep > 0 && st.due > Date.now();
+}
+
+function grade(i, q, practice){
   const id = DECK[i].id;
   const st = S.p[id] || { ef:2.5, iv:0, rep:0, due:0, lap:0, ok:0, no:0 };
   const iv = nextInterval(st, q);
@@ -97,6 +105,8 @@ function grade(i, q){
   if(q < 3){
     st.rep = 0; st.iv = 0; st.lap++; st.no++;
     st.due = Date.now();                      // stays in this session
+  }else if(keepsSchedule(st, q, practice)){
+    st.ok++;                                  // counts, but ef / iv / rep / due are kept
   }else{
     st.ef = Math.max(1.3, st.ef + (0.1 - (5-q) * (0.08 + (5-q) * 0.02)));
     st.rep++; st.iv = iv; st.ok++;
@@ -136,11 +146,15 @@ function newList(){
 /* ---------------- session ---------------- */
 
 function startSession(mode){
+  lastMode = mode;
   const lim = +S.set.sessLen;
   let q = [];
 
   if(mode === 'review'){
     q = [...relearnList(), ...dueList()];
+  }else if(mode === 'cram'){
+    // Least recently seen first, so a second practice run is not the same thirty words.
+    q = pool().slice().sort((a, b) => ((S.p[a.id] || {}).seen || 0) - ((S.p[b.id] || {}).seen || 0));
   }else if(mode === 'hard'){
     q = pool().filter(c => { const st = S.p[c.id]; return st && st.no > 0; })
               .sort((a,b) => {
@@ -156,7 +170,9 @@ function startSession(mode){
   if(!q.length){
     const unlearned = pool().filter(c => !S.p[c.id]).length;
     const where = S.set.cat ? ` in ${CATNAME[S.set.cat]}` : '';
-    if(mode === 'hard')
+    if(mode === 'cram')
+      toast(`No words${where} to practise — the list is empty.`);
+    else if(mode === 'hard')
       toast(`No mistakes recorded${where} yet — nothing to drill.`);
     else if(mode === 'review')
       toast(unlearned ? 'Nothing due. Press Study to start new words.' : `Nothing due${where} right now.`);
@@ -166,7 +182,8 @@ function startSession(mode){
       toast(`Nothing due, and every word${where} has been started.`);
     return;
   }
-  sess = { q: q.slice(0, lim).map(c => c.i), done:0, seen:0, ok:0, total:0, shown:false, cur:null, isNew:new Set() };
+  sess = { mode, q: q.slice(0, lim).map(c => c.i), done:0, seen:0, ok:0, total:0,
+           shown:false, cur:null, isNew:new Set() };
   sess.total = sess.q.length;
   sess.q.forEach(i => { if(!S.p[DECK[i].id]) sess.isNew.add(i); });
   show('study');
@@ -198,8 +215,16 @@ function endSession(){
   $('#dSeen').textContent = sess.seen;
   $('#dOk').textContent = sess.ok;
   $('#dAcc').textContent = sess.seen ? Math.round(sess.ok / sess.seen * 100) + '%' : '0%';
-  const d = dueList().length + relearnList().length;
-  $('#doneLine').textContent = d ? `${d} card${d===1?'':'s'} still waiting.` : 'Everything due is cleared.';
+  if(sess.mode === 'cram'){
+    const name = S.set.cat ? CATNAME[S.set.cat] : 'the deck';
+    const left = pool().length - sess.seen;
+    $('#doneLine').textContent = left > 0
+      ? `${left} more in ${name} — press Practice again for the next ${Math.min(left, +S.set.sessLen)}.`
+      : `That is all of ${name}.`;
+  }else{
+    const d = dueList().length + relearnList().length;
+    $('#doneLine').textContent = d ? `${d} card${d===1?'':'s'} still waiting.` : 'Everything due is cleared.';
+  }
   show('done');
 }
 
@@ -437,7 +462,11 @@ function renderCard(){
     setTimeout(() => inp.focus({ preventScroll:true }), 30);
   }
 
-  for(const q of [0,3,4,5]) $('#i'+q).textContent = fmtIv(nextInterval(st, q));
+  const practice = sess.mode === 'cram';
+  for(const q of [0,3,4,5])
+    $('#i'+q).textContent = keepsSchedule(st, q, practice)
+      ? fmtIv(Math.round((st.due - Date.now()) / DAY))   // unchanged: still due when it was
+      : fmtIv(nextInterval(st, q));
 
   const pct = sess.total ? (sess.done / sess.total) * 100 : 0;
   $('#sessBar').style.width = pct + '%';
@@ -492,7 +521,7 @@ function answer(q){
   const i = sess.cur;
   const wasNew = sess.isNew.has(i) && !S.p[DECK[i].id];
   if(wasNew) logToday('new');
-  grade(i, q);
+  grade(i, q, sess.mode === 'cram');
   sess.seen++; if(q >= 3) sess.ok++;
   if(q < 3){
     sess.q.splice(Math.min(4, sess.q.length), 0, i);   // resurface soon
@@ -533,9 +562,26 @@ function renderCats(){
   $('#catsAll').classList.toggle('hidden', !hidden && !box.classList.contains('open'));
 }
 
+/** Forget the progress on the list you are looking at, so it can be learned again from
+    scratch. Scoped to the current pool, which is what the home screen is showing. */
+function resetList(){
+  const p = pool();
+  const name = S.set.cat ? CATNAME[S.set.cat] : 'the whole deck';
+  const has = p.filter(c => S.p[c.id]);
+  if(!has.length){ toast(`Nothing to reset — ${name} is untouched.`); return; }
+  if(!confirm(`Forget your progress on ${has.length} word${has.length === 1 ? '' : 's'} in ` +
+              `${name}? They go back to being new. Everything else is kept.`)) return;
+  for(const c of has) delete S.p[c.id];
+  save(); renderHome();
+  toast(`${name} reset — ${has.length} words are new again.`);
+}
+
 function renderHome(){
   syncMode();
   renderCats();
+  const list = S.set.cat ? CATNAME[S.set.cat] : '';
+  $('#btnCram').textContent  = list ? `Practice ${list}` : 'Practice all';
+  $('#btnFresh').textContent = list ? `Reset ${list}` : 'Reset deck';
   const p = pool();
   const learned = p.filter(c => { const st = S.p[c.id]; return st && st.rep > 0; }).length;
   const pct = p.length ? Math.round(learned / p.length * 100) : 0;
@@ -724,6 +770,8 @@ function bind(){
   $('#btnStudy').onclick   = () => startSession('mixed');
   $('#btnReview').onclick  = () => startSession('review');
   $('#btnHard').onclick    = () => startSession('hard');
+  $('#btnCram').onclick    = () => startSession('cram');
+  $('#btnFresh').onclick   = resetList;
   $('#toBrowse').onclick   = () => show('browse');
   $('#toStats').onclick    = () => show('stats');
   $('#toSettings').onclick = () => show('settings');
@@ -733,7 +781,7 @@ function bind(){
   $('#setBack').onclick    = () => show('home');
   $('#doneBack').onclick   = () => show('home');
   $('#btnHome').onclick    = () => show('home');
-  $('#btnAgainSession').onclick = () => startSession('mixed');
+  $('#btnAgainSession').onclick = () => startSession(lastMode);
 
   $('#card').onclick = () => {
     if(S.set.typing === 'on' && sess && !sess.shown){ $('#typeIn').focus(); return; }

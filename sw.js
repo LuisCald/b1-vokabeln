@@ -1,5 +1,5 @@
 /* Offline cache. Bump CACHE when deck.json or the app files change. */
-const CACHE = 'b1v-11';
+const CACHE = 'b1v-12';
 const ASSETS = ['./', './index.html', './style.css', './app.js', './deck.json',
                 './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 

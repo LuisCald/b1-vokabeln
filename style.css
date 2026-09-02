@@ -97,6 +97,7 @@ button{font:inherit}
   color:var(--ink);font-weight:550;cursor:pointer;margin-top:8px;
 }
 .ghost:active{background:var(--line)}
+.ghost.warn{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 35%,var(--line))}
 .danger{width:100%;padding:13px;border:1px solid var(--bad);border-radius:14px;background:transparent;color:var(--bad);font-weight:560;cursor:pointer;margin-top:18px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .row2 .ghost{margin-top:8px}

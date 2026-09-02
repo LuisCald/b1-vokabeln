@@ -32,7 +32,22 @@ Then choose a session:
   session length (default 30) is what actually bounds a sitting. Set a daily new-card cap
   in Settings if you would rather pace the intake.
 - **Review only** — no new cards, just what is due.
+- **Practice** — the whole list again, whether or not it is due, least recently seen
+  first. Use it once a list is finished and you still want the reps.
 - **Drill worst** — the words you get wrong most, ignoring the schedule.
+
+**Practice can only help, never set you back.** Answering a learned word correctly leaves
+its schedule exactly where it was — the interval, the ease and the due date are untouched,
+and only the tally of right answers goes up, so a practice run never pushes a word further
+away. Get one wrong and it drops back to relearning as usual, because then it has earned
+that. A word you have never started still graduates normally, so practice also teaches.
+The grade buttons show what will actually happen: a word whose schedule is being kept
+shows the time it already had left, not a new interval.
+
+**Reset list** forgets your progress on the list you are looking at and nothing else, so
+you can learn it again from scratch. It names the list and its word count before it does
+anything, and words outside the list keep their history. Export a backup first if you are
+unsure — Settings → *Export progress*.
 
 Rate every card **Again / Hard / Good / Easy**. On a keyboard: `space` reveals (and then
 accepts the suggested grade), `1`–`4` grade directly.
