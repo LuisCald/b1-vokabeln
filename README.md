@@ -26,28 +26,30 @@ screen — study, browse and statistics — to one list:
 Each chip shows how many words it holds. A list and a frequency range combine, so
 *Connectors* + *Top 500* is the 48 most common linking words.
 
-Then choose a session:
+Then choose **which cards** of that list you want. This row is the answer to a list you
+have already worked through: only *Scheduled* obeys the calendar, so a finished list is
+never closed to you.
 
-- **Study** — mixes cards that are due with new ones. New cards are unlimited by default;
-  session length (default 30) is what actually bounds a sitting. Set a daily new-card cap
-  in Settings if you would rather pace the intake.
-- **Review only** — no new cards, just what is due.
-- **Practice** — the whole list again, whether or not it is due, least recently seen
-  first. Use it once a list is finished and you still want the reps.
-- **Drill worst** — the words you get wrong most, ignoring the schedule.
+- **Scheduled** — ordinary spaced repetition: what is due today, plus new words mixed in.
+  New cards are unlimited by default; session length (default 30) bounds a sitting. Set a
+  daily new-card cap in Settings if you would rather pace the intake.
+- **New** — only words you have never studied.
+- **Old** — only words you have already learned, in random order, whether or not they are
+  due. This is the one for a list you have finished and want to keep turning over.
+- **Weak** — the words you get wrong most, worst first.
+- **All** — every word in the list, in random order.
 
-**Practice can only help, never set you back.** Answering a learned word correctly leaves
-its schedule exactly where it was — the interval, the ease and the due date are untouched,
-and only the tally of right answers goes up, so a practice run never pushes a word further
-away. Get one wrong and it drops back to relearning as usual, because then it has earned
-that. A word you have never started still graduates normally, so practice also teaches.
-The grade buttons show what will actually happen: a word whose schedule is being kept
-shows the time it already had left, not a new interval.
+Each shows how many cards it can give you right now, so you can see at a glance that
+*Scheduled* is empty but *Old* has 121 waiting. Every draw of *Old* and *All* is reshuffled,
+so a second run is not the same thirty words.
 
-**Reset list** forgets your progress on the list you are looking at and nothing else, so
-you can learn it again from scratch. It names the list and its word count before it does
-anything, and words outside the list keep their history. Export a backup first if you are
-unsure — Settings → *Export progress*.
+**Revision cannot set you back.** Under *Old*, *Weak* and *All*, answering a learned word
+correctly leaves its schedule exactly where it was — interval, ease and due date untouched,
+only the tally of right answers goes up — so going through a list again never pushes its
+words further away. Get one wrong and it drops back to relearning as usual, because then it
+has earned that. Under *Scheduled* and *New*, words move through the schedule normally. The
+grade buttons show what will actually happen: a word whose schedule is being kept shows the
+time it already had left, not a new interval.
 
 Rate every card **Again / Hard / Good / Easy**. On a keyboard: `space` reveals (and then
 accepts the suggested grade), `1`–`4` grade directly.
@@ -97,6 +99,10 @@ full-screen and works with no connection.
 Progress lives in `localStorage` in one browser. It is **not** synced between devices.
 Settings → **Export progress** writes a `.json` backup (drop it in Dropbox); **Import**
 loads it on another device. Clearing site data erases progress, so export now and then.
+
+Settings → **Reset this word list** forgets your progress on the list currently selected on
+the home screen and nothing else, so you can learn it again from scratch. It names the list
+and counts the words before it does anything, and words outside the list keep their history.
 
 ## Running locally
 

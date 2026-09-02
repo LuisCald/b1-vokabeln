@@ -6,7 +6,7 @@
 const KEY = 'b1v.state.v1';
 const DAY = 86400000;
 const DEFAULTS = { dir:'de', newPerDay:9999, sessLen:30, range:'0', showEx:true,
-                   typing:'off', sv:2, cat:'' };
+                   typing:'off', sv:2, cat:'', scope:'mix' };
 
 /* Word lists. The DTZ Wortliste is alphabetical and has no subject headings, so every
    card's categories are assigned by hand in tools/word_categories.json. The first few are
@@ -39,7 +39,6 @@ const CATS_SHOWN = 8;
 let DECK = [];
 let S = load();
 let sess = null;
-let lastMode = 'mixed';
 
 /* ---------------- storage ---------------- */
 
@@ -128,6 +127,9 @@ function inRange(c){
   return !!c.rank && c.rank <= +r;
 }
 const inCat = c => !S.set.cat || (c.cat && c.cat.indexOf(S.set.cat) >= 0);
+/** A word counts as learned once it has been answered right at least once — the same
+    measure the progress ring uses, so the ring reaching 100% is what unlocks Practice. */
+const isLearned = c => { const st = S.p[c.id]; return !!st && st.rep > 0; };
 /** Every screen works on this: the chosen word list, narrowed by the frequency range. */
 const pool = () => DECK.filter(c => inCat(c) && inRange(c));
 
@@ -145,49 +147,75 @@ function newList(){
 
 /* ---------------- session ---------------- */
 
-function startSession(mode){
-  lastMode = mode;
-  const lim = +S.set.sessLen;
-  let q = [];
+/* ---------------- which cards ---------------- */
 
-  if(mode === 'review'){
-    q = [...relearnList(), ...dueList()];
-  }else if(mode === 'cram'){
-    // Least recently seen first, so a second practice run is not the same thirty words.
-    q = pool().slice().sort((a, b) => ((S.p[a.id] || {}).seen || 0) - ((S.p[b.id] || {}).seen || 0));
-  }else if(mode === 'hard'){
-    q = pool().filter(c => { const st = S.p[c.id]; return st && st.no > 0; })
-              .sort((a,b) => {
-                const A = S.p[a.id], B = S.p[b.id];
-                return (B.no/(B.ok+B.no)) - (A.no/(A.ok+A.no)) || B.no - A.no;
-              });
-  }else{
-    const dues = [...relearnList(), ...dueList()];
-    const news = newList();
-    q = interleave(dues, news);
-  }
+/* Having picked a word list, you pick which of its cards to see. Scheduled is ordinary
+   spaced repetition; the other four ignore the calendar, which is the point — a list you
+   have finished has nothing due for weeks, and you should still be able to open it. */
+const SCOPES = [
+  ['mix',  'Scheduled', 'due today, plus new words'],
+  ['new',  'New',       'words you have never studied'],
+  ['old',  'Old',       'words you have already learned, in random order'],
+  ['weak', 'Weak',      'the ones you get wrong most'],
+  ['all',  'All',       'every word in the list, in random order'],
+];
+const SCOPENAME = Object.fromEntries(SCOPES.map(s => [s[0], s[1]]));
+
+/** The cards a scope offers, in the order it wants them. */
+function queueFor(scope){
+  const p = pool();
+  if(scope === 'new')  return p.filter(c => !S.p[c.id]);
+  if(scope === 'old')  return shuffle(p.filter(isLearned));
+  if(scope === 'all')  return shuffle(p);
+  if(scope === 'weak') return p.filter(c => { const st = S.p[c.id]; return st && st.no > 0; })
+    .sort((a, b) => {
+      const A = S.p[a.id], B = S.p[b.id];
+      return (B.no/(B.ok+B.no)) - (A.no/(A.ok+A.no)) || B.no - A.no;
+    });
+  return interleave([...relearnList(), ...dueList()], newList());
+}
+
+/** Old, Weak and All are revision, not new scheduling: answering right must not push a
+    word further away. Only Scheduled and New move the calendar forward. */
+const ignoresSchedule = scope => scope === 'old' || scope === 'all' || scope === 'weak';
+
+function startSession(scope){
+  S.set.scope = scope = scope || S.set.scope || 'mix';
+  const q = queueFor(scope);
 
   if(!q.length){
-    const unlearned = pool().filter(c => !S.p[c.id]).length;
     const where = S.set.cat ? ` in ${CATNAME[S.set.cat]}` : '';
-    if(mode === 'cram')
-      toast(`No words${where} to practise — the list is empty.`);
-    else if(mode === 'hard')
+    const learned = pool().filter(isLearned).length;
+    if(scope === 'new')
+      toast(`No new words left${where} — every one has been started.`);
+    else if(scope === 'weak')
       toast(`No mistakes recorded${where} yet — nothing to drill.`);
-    else if(mode === 'review')
-      toast(unlearned ? 'Nothing due. Press Study to start new words.' : `Nothing due${where} right now.`);
-    else if(unlearned)
-      toast(`Today's new-card limit (${S.set.newPerDay}) is used up. Raise it in Settings.`);
+    else if(scope === 'old')
+      toast(`Nothing learned${where} yet. Study some new words first.`);
+    else if(scope === 'all')
+      toast(`${S.set.cat ? CATNAME[S.set.cat] : 'The deck'} has no words in the current range.`);
     else
-      toast(`Nothing due, and every word${where} has been started.`);
+      toast(learned ? `Nothing due${where} — pick Old or All above to go through it anyway.`
+                    : `Nothing due${where} right now.`);
     return;
   }
-  sess = { mode, q: q.slice(0, lim).map(c => c.i), done:0, seen:0, ok:0, total:0,
+  sess = { scope, q: q.slice(0, +S.set.sessLen).map(c => c.i), done:0, seen:0, ok:0, total:0,
            shown:false, cur:null, isNew:new Set() };
   sess.total = sess.q.length;
   sess.q.forEach(i => { if(!S.p[DECK[i].id]) sess.isNew.add(i); });
+  save();
   show('study');
   nextCard();
+}
+
+/** Fisher-Yates. Returns a new array; the deck itself is never reordered. */
+function shuffle(a){
+  const out = a.slice();
+  for(let i = out.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
 }
 
 /** Spread new cards evenly through the due cards rather than front-loading them. */
@@ -215,11 +243,11 @@ function endSession(){
   $('#dSeen').textContent = sess.seen;
   $('#dOk').textContent = sess.ok;
   $('#dAcc').textContent = sess.seen ? Math.round(sess.ok / sess.seen * 100) + '%' : '0%';
-  if(sess.mode === 'cram'){
+  if(ignoresSchedule(sess.scope)){
     const name = S.set.cat ? CATNAME[S.set.cat] : 'the deck';
-    const left = pool().length - sess.seen;
+    const left = queueFor(sess.scope).length - sess.seen;
     $('#doneLine').textContent = left > 0
-      ? `${left} more in ${name} — press Practice again for the next ${Math.min(left, +S.set.sessLen)}.`
+      ? `${left} more ${SCOPENAME[sess.scope].toLowerCase()} in ${name} — press Study again for the next ${Math.min(left, +S.set.sessLen)}.`
       : `That is all of ${name}.`;
   }else{
     const d = dueList().length + relearnList().length;
@@ -462,7 +490,7 @@ function renderCard(){
     setTimeout(() => inp.focus({ preventScroll:true }), 30);
   }
 
-  const practice = sess.mode === 'cram';
+  const practice = ignoresSchedule(sess.scope);
   for(const q of [0,3,4,5])
     $('#i'+q).textContent = keepsSchedule(st, q, practice)
       ? fmtIv(Math.round((st.due - Date.now()) / DAY))   // unchanged: still due when it was
@@ -521,7 +549,7 @@ function answer(q){
   const i = sess.cur;
   const wasNew = sess.isNew.has(i) && !S.p[DECK[i].id];
   if(wasNew) logToday('new');
-  grade(i, q, sess.mode === 'cram');
+  grade(i, q, ignoresSchedule(sess.scope));
   sess.seen++; if(q >= 3) sess.ok++;
   if(q < 3){
     sess.q.splice(Math.min(4, sess.q.length), 0, i);   // resurface soon
@@ -542,14 +570,24 @@ function syncMode(){
     the Study button off a phone screen. */
 function renderCats(){
   const box = $('#cats');
-  const n = {};
-  for(const c of DECK) if(inRange(c)) for(const k of (c.cat || [])) n[k] = (n[k] || 0) + 1;
-  const all = DECK.filter(inRange).length;
-  const chip = (slug, label, de, count, i) =>
+  const n = {}, done = {};
+  let all = 0, allDone = 0;
+  for(const c of DECK){
+    if(!inRange(c)) continue;
+    const learned = isLearned(c);
+    all++; if(learned) allDone++;
+    for(const k of (c.cat || [])){
+      n[k] = (n[k] || 0) + 1;
+      if(learned) done[k] = (done[k] || 0) + 1;
+    }
+  }
+  // A tick means the list is finished, so Practice is open on it.
+  const chip = (slug, label, de, count, fin, i) =>
     `<button type="button" data-c="${slug}" title="${esc(de)}"` +
-    `${i >= CATS_SHOWN ? ' class="hide"' : ''}>${esc(label)} <i>${count}</i></button>`;
-  box.innerHTML = chip('', 'Whole deck', 'Ganze Liste', all, -1) +
-                  CATS.map(([s2, l, d], i) => chip(s2, l, d, n[s2] || 0, i)).join('');
+    `${i >= CATS_SHOWN ? ' class="hide"' : ''}>${esc(label)} ` +
+    `<i>${count > 0 && fin === count ? '&#10003;' : count}</i></button>`;
+  box.innerHTML = chip('', 'Whole deck', 'Ganze Liste', all, allDone, -1) +
+                  CATS.map(([s2, l, d], i) => chip(s2, l, d, n[s2] || 0, done[s2] || 0, i)).join('');
   const cur = S.set.cat;
   [...box.children].forEach(b => {
     b.classList.toggle('on', b.dataset.c === cur);
@@ -572,16 +610,31 @@ function resetList(){
   if(!confirm(`Forget your progress on ${has.length} word${has.length === 1 ? '' : 's'} in ` +
               `${name}? They go back to being new. Everything else is kept.`)) return;
   for(const c of has) delete S.p[c.id];
-  save(); renderHome();
+  save(); bindSettings(); renderHome();
   toast(`${name} reset — ${has.length} words are new again.`);
+}
+
+/** The five card scopes, each showing how many cards it would give you right now. */
+function renderScopes(){
+  const box = $('#scopes');
+  const cur = S.set.scope || 'mix';
+  box.innerHTML = SCOPES.map(([slug, label, hint]) => {
+    const n = queueFor(slug).length;
+    return `<button type="button" data-s="${slug}" title="${esc(hint)}"` +
+           ` class="${slug === cur ? 'on' : n ? '' : 'none'}">` +
+           `${esc(label)}<em>${n}</em></button>`;
+  }).join('');
+  [...box.children].forEach(b => {
+    b.onclick = () => { S.set.scope = b.dataset.s; save(); renderHome(); };
+  });
+  $('#btnStudy').textContent = cur === 'mix' ? 'Study'
+    : `Study ${SCOPENAME[cur].toLowerCase()}${S.set.cat ? ' · ' + CATNAME[S.set.cat] : ''}`;
 }
 
 function renderHome(){
   syncMode();
   renderCats();
-  const list = S.set.cat ? CATNAME[S.set.cat] : '';
-  $('#btnCram').textContent  = list ? `Practice ${list}` : 'Practice all';
-  $('#btnFresh').textContent = list ? `Reset ${list}` : 'Reset deck';
+  renderScopes();
   const p = pool();
   const learned = p.filter(c => { const st = S.p[c.id]; return st && st.rep > 0; }).length;
   const pct = p.length ? Math.round(learned / p.length * 100) : 0;
@@ -738,6 +791,9 @@ function bindSettings(){
     r.readAsText(f);
     e.target.value = '';
   };
+  const rl = $('#btnResetList');
+  rl.textContent = `Reset ${S.set.cat ? CATNAME[S.set.cat] : 'the whole deck'}`;
+  rl.onclick = resetList;
   $('#btnReset').onclick = () => {
     if(!confirm('Delete all progress on this device? Export a backup first if you want to keep it.')) return;
     S = { p:{}, log:{}, set:Object.assign({}, DEFAULTS) };
@@ -767,11 +823,7 @@ function toast(msg){
 }
 
 function bind(){
-  $('#btnStudy').onclick   = () => startSession('mixed');
-  $('#btnReview').onclick  = () => startSession('review');
-  $('#btnHard').onclick    = () => startSession('hard');
-  $('#btnCram').onclick    = () => startSession('cram');
-  $('#btnFresh').onclick   = resetList;
+  $('#btnStudy').onclick   = () => startSession(S.set.scope);
   $('#toBrowse').onclick   = () => show('browse');
   $('#toStats').onclick    = () => show('stats');
   $('#toSettings').onclick = () => show('settings');
@@ -781,7 +833,7 @@ function bind(){
   $('#setBack').onclick    = () => show('home');
   $('#doneBack').onclick   = () => show('home');
   $('#btnHome').onclick    = () => show('home');
-  $('#btnAgainSession').onclick = () => startSession(lastMode);
+  $('#btnAgainSession').onclick = () => startSession(S.set.scope);
 
   $('#card').onclick = () => {
     if(S.set.typing === 'on' && sess && !sess.shown){ $('#typeIn').focus(); return; }

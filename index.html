@@ -51,15 +51,10 @@
     </div>
     <div class="cats" id="cats" role="group" aria-label="Word list"></div>
 
+    <div class="cats-hd"><span>Which cards</span></div>
+    <div class="scopes" id="scopes" role="group" aria-label="Which cards"></div>
+
     <button class="primary big" id="btnStudy">Study</button>
-    <div class="row2">
-      <button class="ghost" id="btnReview">Review only</button>
-      <button class="ghost" id="btnCram">Practice</button>
-    </div>
-    <div class="row2">
-      <button class="ghost" id="btnHard">Drill worst</button>
-      <button class="ghost warn" id="btnFresh">Reset list</button>
-    </div>
     <div class="row2">
       <button class="ghost" id="toBrowse">Browse deck</button>
       <button class="ghost" id="toStats">Statistics</button>
@@ -208,6 +203,7 @@
       <button class="ghost" id="btnExport">Export progress (.json)</button>
       <button class="ghost" id="btnImport">Import progress</button>
       <input type="file" id="fileIn" accept="application/json" hidden>
+      <button class="danger" id="btnResetList">Reset this word list</button>
       <button class="danger" id="btnReset">Reset all progress</button>
       <p class="foot" id="setFoot"></p>
     </div>
