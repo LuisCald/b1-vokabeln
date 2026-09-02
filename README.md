@@ -118,7 +118,7 @@ python3 build_deck.py     # join both      -> deck.json
 - `sense_labels.json` names each sense. The DTZ numbers its senses but never labels them,
   so all 1,024 multi-sense cards (2,764 sentences) are labelled by hand.
 - `word_categories.json` puts each word in its lists. The DTZ Wortliste is alphabetical and
-  carries no subject headings at all, so all 2,536 assignments are made by hand. A word can
+  carries no subject headings at all, so all 2,527 assignments are made by hand. A word can
   be in several lists (`die Krankenkasse` is both *Health* and *Officialdom*); a word that
   belongs nowhere in particular (`haben`, `machen`) is in none.
 - `extra_cards.json` holds 22 linking words the DTZ list happens to omit — `sowie`,
