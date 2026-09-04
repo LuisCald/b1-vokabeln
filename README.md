@@ -89,6 +89,14 @@ three meanings are shown; the rest sit behind a "+n more" toggle.
 Scheduling is SM-2 (the Anki algorithm). A word you miss comes back within the same
 session; one you know drifts out to days, then weeks.
 
+### The whole list on one page
+
+The home screen and Settings both link to **[overview.html](overview.html)** — every word
+with its meanings and example sentences, grouped by word list and alphabetical within each,
+for reading rather than drilling. **B1-Vokabeln.pdf** is the same thing printed: 81 A4
+pages, two columns, 1.2 MB. A word that belongs to several lists appears in each, so a list
+reads straight down.
+
 ### Install on a phone
 
 Open the site in Safari or Chrome and choose **Add to Home Screen**. It then launches
@@ -160,6 +168,20 @@ Two classes of correction are applied by hand in `build_deck.py`:
 - `GENDER_SENSE` — nouns whose meaning turns on the gender. The frequency dictionary lists
   only one of each pair, so without this *die Leiter* (ladder) would inherit the gloss of
   *der Leiter* (leader).
+
+Then rebuild the reading copy and the PDF:
+
+```sh
+python3 build_overview.py     # -> overview.html and B1-Vokabeln.pdf
+```
+
+It writes the page, prints it with headless Chrome, and shrinks the result with
+ghostscript if that is installed — Chrome embeds a fresh font subset every few pages, which
+quadruples the file. Without ghostscript the PDF is still correct, only about 4 MB; without
+Chrome you get `overview.html` and can print it yourself.
+
+`.gitignore` excludes `*.pdf` so the copyrighted sources can never be committed by
+accident, with a single named exception for `B1-Vokabeln.pdf`, which we generate.
 
 After changing `deck.json`, bump `CACHE` in `sw.js` so phones fetch the new version.
 

@@ -1,5 +1,7 @@
 # Source PDFs are copyrighted — keep them local, never publish them.
 *.pdf
+# ...except the one we generate ourselves from deck.json (tools/build_overview.py).
+!B1-Vokabeln.pdf
 
 .DS_Store
 *.swp
