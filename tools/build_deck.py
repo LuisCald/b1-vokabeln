@@ -181,6 +181,23 @@ SENSE_FIX = {
     'fließend':  'fluent; running (water)',
     'kündigen':  'to resign; to give notice; to cancel',
     'Schuld':    'fault, blame; debts',
+
+    # Linking words the frequency dictionary glosses by its own headline sense rather than
+    # the one the DTZ example shows, or where the English is a false friend.
+    'eher':          'rather; earlier, sooner',
+    'da':            'there; since, because',
+    'damit':         'so that; with it',
+    'doch':          'but, however; yes (contradicting a negative)',
+    'also':          'so, therefore; well (starting a turn)',
+    'eventuell':     'possibly, perhaps',
+    'wahrscheinlich':'probably, likely',
+    'allerdings':    'however, though; certainly',
+    'denn':          'because, for; then (in a question)',
+    'sonst':         'otherwise, or else; anything else',
+    'zwar':          'admittedly (zwar … aber); namely (und zwar)',
+    'umso':          'the … the (je … umso)',
+    'Ursache':       "cause; you're welcome (keine Ursache)",
+    'soviel':        'as far as (soviel ich weiß)',
 }
 
 GENDER_SENSE = {
