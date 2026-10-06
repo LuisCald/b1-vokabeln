@@ -156,6 +156,9 @@ wordcats = json.load(open('word_categories.json', encoding='utf-8')) if os.path.
 # vocabulary - der Tag, die Woche, the days, the numbers, even ich and du appear only
 # inside example sentences. Both sets are written by hand here; each names its own lists.
 extras = json.load(open('extra_cards.json', encoding='utf-8')) if os.path.exists('extra_cards.json') else []
+# An English translation of every example sentence, keyed by the German sentence itself so
+# a sentence shared by two cards is translated once. Written by hand.
+translations = json.load(open('sentence_translations.json', encoding='utf-8')) if os.path.exists('sentence_translations.json') else {}
 FIX_ARTICLE = {'Ratschlag': 'der', 'Schinken': 'der'}   # article omitted in the source PDF
 
 # Nouns whose meaning depends on the gender. The frequency dictionary lists only one of
@@ -229,7 +232,7 @@ def senses_for(card_id, c):
     lab = labels.get(card_id)
     if not lab or len(lab) != len(ex):
         lab = [None] * len(ex)
-    return [{'en': (l or None), 'ex': s} for l, s in zip(lab, ex)]
+    return [{'en': (l or None), 'ex': s, 'tr': translations.get(s)} for l, s in zip(lab, ex)]
 
 # display form: article + lemma for nouns, plain lemma otherwise
 def display(c):
@@ -284,7 +287,8 @@ for e in extras:
         continue
     deck.append({
         'i': len(deck), 'id': e['de'], 'pi': None, 'de': e['de'], 'en': e['en'],
-        'ex': [s_['ex'] for s_ in e['sn']], 'sn': e['sn'], 'kind': e['kind'],
+        'ex': [s_['ex'] for s_ in e['sn']],
+        'sn': [dict(s_, tr=translations.get(s_['ex'])) for s_ in e['sn']], 'kind': e['kind'],
         'pl': e.get('pl'), 'forms': e.get('forms', []), 'rank': None, 'src': 'extra',
         'cat': wordcats.get(e['de'], []),
     })

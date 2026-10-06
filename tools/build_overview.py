@@ -68,7 +68,9 @@ def entry(c):
         # An em dash keeps the meaning from reading as the first words of the sentence.
         out.append('<div class="s">' +
                    (f'<i>{e(lab)}</i> &mdash; ' if show else '') +
-                   e(s['ex']) + '</div>')
+                   e(s['ex']) +
+                   (f'<span class="t">{e(s["tr"])}</span>' if s.get('tr') else '') +
+                   '</div>')
     out.append('</div>')
     return ''.join(out)
 
@@ -113,6 +115,7 @@ h2 span{float:right;font-weight:400;color:var(--dim);font-size:11.5px;padding-to
 .en{color:var(--accent);margin-left:5px}
 .s{color:#3f444e;font-size:11.5px;padding-left:9px;margin-top:1px}
 .s i{color:var(--ink);font-style:normal;font-weight:600}
+.s .t{display:block;color:var(--dim);font-size:.92em}
 @media (min-width:1100px){ .cols{columns:3} }
 @page{ size:A4; margin:11mm 10mm 11mm 10mm }
 @media print{

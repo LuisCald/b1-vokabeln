@@ -85,6 +85,11 @@ the sentence that shows it — `halten` is *to hold*, *to stop (a train)*, *to k
 obey*, *to think of*, and *to keep, last (food)*, each with its own example. The first
 three meanings are shown; the rest sit behind a "+n more" toggle.
 
+**Every sentence is translated.** All 4,423 example sentences carry an English translation,
+shown smaller underneath once the card is revealed, so the German is still read first.
+Settings → *Translate example sentences* turns them off when you would rather work the
+sentence out yourself.
+
 **One meaning is enough when typing.** Answering `stop` for a word glossed
 `stop!; just, simply` scores 100% — the matcher accepts any single sense.
 
@@ -95,8 +100,8 @@ session; one you know drifts out to days, then weeks.
 
 The home screen and Settings both link to **[overview.html](overview.html)** — every word
 with its meanings and example sentences, grouped by word list and alphabetical within each,
-for reading rather than drilling. **B1-Vokabeln.pdf** is the same thing printed: 81 A4
-pages, two columns, 1.2 MB. A word that belongs to several lists appears in each, so a list
+for reading rather than drilling, each sentence with its translation. **B1-Vokabeln.pdf**
+is the same thing printed: 125 A4 pages, two columns, 1.9 MB. A word that belongs to several lists appears in each, so a list
 reads straight down.
 
 ### Install on a phone
@@ -152,6 +157,9 @@ python3 build_deck.py     # join both      -> deck.json
   carries no subject headings at all, so all 2,527 assignments are made by hand. A word can
   be in several lists (`die Krankenkasse` is both *Health* and *Officialdom*); a word that
   belongs nowhere in particular (`haben`, `machen`) is in none.
+- `sentence_translations.json` gives an English translation for every example sentence,
+  keyed by the German sentence so one shared by two cards is translated once. All 4,423
+  are written by hand.
 - `extra_cards.json` holds the 81 cards written by hand (see *Beyond the DTZ list*). Each
   one names its own word lists in `word_categories.json`; nouns may carry a `pl`.
 

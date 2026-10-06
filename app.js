@@ -6,7 +6,7 @@
 const KEY = 'b1v.state.v1';
 const DAY = 86400000;
 const DEFAULTS = { dir:'de', newPerDay:9999, sessLen:30, range:'0', showEx:true,
-                   typing:'off', sv:2, cat:'', scope:'mix' };
+                   typing:'off', sv:2, cat:'', scope:'mix', showTr:true };
 
 /* Word lists. The DTZ Wortliste is alphabetical and has no subject headings, so every
    card's categories are assigned by hand in tools/word_categories.json. The first few are
@@ -299,14 +299,18 @@ function renderSenses(sn, de){
   const groups = [];
   for(const s of sn){
     const last = groups[groups.length - 1];
-    if(last && last.en === s.en) last.ex.push(s.ex);
-    else groups.push({ en:s.en, ex:[s.ex] });
+    const line = { ex:s.ex, tr:s.tr };
+    if(last && last.en === s.en) last.lines.push(line);
+    else groups.push({ en:s.en, lines:[line] });
   }
+  // The translation sits under its sentence, quieter, so the German is still read first.
+  const tr = S.set.showTr;
   const hidden = Math.max(0, groups.length - SENSES_SHOWN);
   const body = groups.map((g, i) =>
     `<div class="sense${i >= SENSES_SHOWN ? ' extra' : ''}">` +
       (g.en ? `<div class="sense-en">${esc(g.en)}</div>` : '') +
-      g.ex.map(x => `<div class="sense-ex">${highlight(x, de)}</div>`).join('') +
+      g.lines.map(x => `<div class="sense-ex">${highlight(x.ex, de)}</div>` +
+        (tr && x.tr ? `<div class="sense-tr">${esc(x.tr)}</div>` : '')).join('') +
     `</div>`).join('');
   return body + (hidden
     ? `<button type="button" class="more">+${hidden} more meaning${hidden > 1 ? 's' : ''}</button>`
@@ -460,7 +464,7 @@ function renderCard(){
 
   const ex = $('#cEx');
   const senses = (c.sn && c.sn.length) ? c.sn
-               : (c.ex || []).map(s => ({ en:null, ex:s }));
+               : (c.ex || []).map(s => ({ en:null, ex:s, tr:null }));
   if(S.set.showEx && senses.length){
     ex.innerHTML = renderSenses(senses, c.de);
     ex.classList.remove('hidden', 'open');
@@ -766,6 +770,9 @@ function bindSettings(){
   const ex = $('#sEx');
   ex.checked = !!S.set.showEx;
   ex.onchange = () => { S.set.showEx = ex.checked; save(); };
+  const trBox = $('#sTr');
+  trBox.checked = !!S.set.showTr;
+  trBox.onchange = () => { S.set.showTr = trBox.checked; save(); };
 
   $('#btnExport').onclick = () => {
     const blob = new Blob([JSON.stringify(S)], {type:'application/json'});
