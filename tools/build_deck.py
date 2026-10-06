@@ -151,8 +151,10 @@ labels = json.load(open('sense_labels.json', encoding='utf-8')) if os.path.exist
 # Topic and function categories, one list of slugs per card id. Hand-assigned: the DTZ
 # list is alphabetical and carries no subject headings at all.
 wordcats = json.load(open('word_categories.json', encoding='utf-8')) if os.path.exists('word_categories.json') else {}
-# Connectors the DTZ list happens to omit (sowie, jedoch, dennoch ...). They are standard
-# B1 linking words and the exam asks for them in the writing and speaking parts.
+# Words the DTZ list omits. Section 9.2 is the *alphabetical* list and it starts above the
+# basics: linking words like sowie and jedoch are missing, and so is all of the elementary
+# vocabulary - der Tag, die Woche, the days, the numbers, even ich and du appear only
+# inside example sentences. Both sets are written by hand here; each names its own lists.
 extras = json.load(open('extra_cards.json', encoding='utf-8')) if os.path.exists('extra_cards.json') else []
 FIX_ARTICLE = {'Ratschlag': 'der', 'Schinken': 'der'}   # article omitted in the source PDF
 
@@ -283,8 +285,8 @@ for e in extras:
     deck.append({
         'i': len(deck), 'id': e['de'], 'pi': None, 'de': e['de'], 'en': e['en'],
         'ex': [s_['ex'] for s_ in e['sn']], 'sn': e['sn'], 'kind': e['kind'],
-        'pl': None, 'forms': [], 'rank': None, 'src': 'extra',
-        'cat': wordcats.get(e['de'], ['connect']),
+        'pl': e.get('pl'), 'forms': e.get('forms', []), 'rank': None, 'src': 'extra',
+        'cat': wordcats.get(e['de'], []),
     })
 
 json.dump(deck, open('deck.json', 'w'), ensure_ascii=False, separators=(',', ':'))

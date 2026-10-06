@@ -1,47 +1,918 @@
 [
- {"de":"sowie","en":"as well as","kind":"conj",
-  "sn":[{"en":null,"ex":"Bitte bringen Sie Ihren Ausweis sowie eine aktuelle Meldebescheinigung mit."}]},
- {"de":"jedoch","en":"however, but","kind":"conj",
-  "sn":[{"en":null,"ex":"Die Wohnung ist schön, jedoch ist sie für uns zu teuer."}]},
- {"de":"dennoch","en":"nevertheless, even so","kind":"adv",
-  "sn":[{"en":null,"ex":"Es hat den ganzen Tag geregnet. Dennoch sind wir spazieren gegangen."}]},
- {"de":"ansonsten","en":"otherwise, apart from that","kind":"adv",
-  "sn":[{"en":null,"ex":"Der Kurs war anstrengend, ansonsten bin ich sehr zufrieden."}]},
- {"de":"zudem","en":"moreover, in addition","kind":"adv",
-  "sn":[{"en":null,"ex":"Das Zimmer ist hell und ruhig. Zudem liegt es sehr zentral."}]},
- {"de":"somit","en":"thus, and so","kind":"adv",
-  "sn":[{"en":null,"ex":"Ich habe die Prüfung bestanden und bin somit mit dem Kurs fertig."}]},
- {"de":"folglich","en":"consequently, therefore","kind":"adv",
-  "sn":[{"en":null,"ex":"Der Zug hatte Verspätung, folglich habe ich meinen Termin verpasst."}]},
- {"de":"beziehungsweise","en":"or rather, respectively (bzw.)","kind":"conj",
-  "sn":[{"en":null,"ex":"Melden Sie sich bitte bei Frau Weber bzw. bei ihrer Vertretung."}]},
- {"de":"immerhin","en":"at least, after all","kind":"adv",
-  "sn":[{"en":null,"ex":"Die Miete ist hoch, aber immerhin ist die Heizung inklusive."}]},
- {"de":"zunächst","en":"first of all, at first","kind":"adv",
-  "sn":[{"en":null,"ex":"Zunächst füllen Sie das Formular aus, danach gehen Sie zum Schalter."}]},
- {"de":"anschließend","en":"afterwards, then","kind":"adv",
-  "sn":[{"en":null,"ex":"Wir essen um sieben und gehen anschließend ins Kino."}]},
- {"de":"erstens","en":"firstly, first of all","kind":"adv",
-  "sn":[{"en":null,"ex":"Ich komme nicht mit: Erstens habe ich keine Zeit, zweitens ist es mir zu teuer."}]},
- {"de":"zweitens","en":"secondly","kind":"adv",
-  "sn":[{"en":null,"ex":"Erstens ist die Wohnung zu klein, zweitens liegt sie zu weit weg."}]},
- {"de":"stattdessen","en":"instead","kind":"adv",
-  "sn":[{"en":null,"ex":"Der Bus fährt heute nicht. Stattdessen nehme ich das Fahrrad."}]},
- {"de":"vor allem","en":"above all, especially","kind":"adv",
-  "sn":[{"en":null,"ex":"Ich lerne Deutsch vor allem für meinen Beruf."}]},
- {"de":"dabei","en":"in doing so; and yet","kind":"adv",
-  "sn":[{"en":"in doing so","ex":"Er hat den Schrank allein aufgebaut. Dabei hat er sich verletzt."},
-        {"en":"and yet","ex":"Sie kauft ständig neue Kleidung. Dabei hat sie schon viel zu viel."}]},
- {"de":"darum","en":"that is why, for that reason","kind":"adv",
-  "sn":[{"en":null,"ex":"Ich bin krank geworden. Darum konnte ich nicht zum Unterricht kommen."}]},
- {"de":"nicht nur … sondern auch","en":"not only … but also","kind":"conj",
-  "sn":[{"en":null,"ex":"Sie spricht nicht nur Deutsch, sondern auch Englisch und Spanisch."}]},
- {"de":"im Gegensatz zu","en":"in contrast to, unlike","kind":"other",
-  "sn":[{"en":null,"ex":"Im Gegensatz zu meinem Bruder stehe ich gern früh auf."}]},
- {"de":"meiner Meinung nach","en":"in my opinion","kind":"other",
-  "sn":[{"en":null,"ex":"Meiner Meinung nach sollte man mehr für die Umwelt tun."}]},
- {"de":"zum Schluss","en":"finally, to conclude","kind":"other",
-  "sn":[{"en":null,"ex":"Zum Schluss möchte ich mich für Ihre Hilfe bedanken."}]},
- {"de":"auf jeden Fall","en":"in any case, definitely","kind":"other",
-  "sn":[{"en":null,"ex":"Ich rufe Sie auf jeden Fall bis Freitag zurück."}]}
+ {
+  "de": "sowie",
+  "en": "as well as",
+  "kind": "conj",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Bitte bringen Sie Ihren Ausweis sowie eine aktuelle Meldebescheinigung mit."
+   }
+  ]
+ },
+ {
+  "de": "jedoch",
+  "en": "however, but",
+  "kind": "conj",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Die Wohnung ist schön, jedoch ist sie für uns zu teuer."
+   }
+  ]
+ },
+ {
+  "de": "dennoch",
+  "en": "nevertheless, even so",
+  "kind": "adv",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Es hat den ganzen Tag geregnet. Dennoch sind wir spazieren gegangen."
+   }
+  ]
+ },
+ {
+  "de": "ansonsten",
+  "en": "otherwise, apart from that",
+  "kind": "adv",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Der Kurs war anstrengend, ansonsten bin ich sehr zufrieden."
+   }
+  ]
+ },
+ {
+  "de": "zudem",
+  "en": "moreover, in addition",
+  "kind": "adv",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Das Zimmer ist hell und ruhig. Zudem liegt es sehr zentral."
+   }
+  ]
+ },
+ {
+  "de": "somit",
+  "en": "thus, and so",
+  "kind": "adv",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich habe die Prüfung bestanden und bin somit mit dem Kurs fertig."
+   }
+  ]
+ },
+ {
+  "de": "folglich",
+  "en": "consequently, therefore",
+  "kind": "adv",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Der Zug hatte Verspätung, folglich habe ich meinen Termin verpasst."
+   }
+  ]
+ },
+ {
+  "de": "beziehungsweise",
+  "en": "or rather, respectively (bzw.)",
+  "kind": "conj",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Melden Sie sich bitte bei Frau Weber bzw. bei ihrer Vertretung."
+   }
+  ]
+ },
+ {
+  "de": "immerhin",
+  "en": "at least, after all",
+  "kind": "adv",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Die Miete ist hoch, aber immerhin ist die Heizung inklusive."
+   }
+  ]
+ },
+ {
+  "de": "zunächst",
+  "en": "first of all, at first",
+  "kind": "adv",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Zunächst füllen Sie das Formular aus, danach gehen Sie zum Schalter."
+   }
+  ]
+ },
+ {
+  "de": "anschließend",
+  "en": "afterwards, then",
+  "kind": "adv",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Wir essen um sieben und gehen anschließend ins Kino."
+   }
+  ]
+ },
+ {
+  "de": "erstens",
+  "en": "firstly, first of all",
+  "kind": "adv",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich komme nicht mit: Erstens habe ich keine Zeit, zweitens ist es mir zu teuer."
+   }
+  ]
+ },
+ {
+  "de": "zweitens",
+  "en": "secondly",
+  "kind": "adv",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Erstens ist die Wohnung zu klein, zweitens liegt sie zu weit weg."
+   }
+  ]
+ },
+ {
+  "de": "stattdessen",
+  "en": "instead",
+  "kind": "adv",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Der Bus fährt heute nicht. Stattdessen nehme ich das Fahrrad."
+   }
+  ]
+ },
+ {
+  "de": "vor allem",
+  "en": "above all, especially",
+  "kind": "adv",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich lerne Deutsch vor allem für meinen Beruf."
+   }
+  ]
+ },
+ {
+  "de": "dabei",
+  "en": "in doing so; and yet",
+  "kind": "adv",
+  "sn": [
+   {
+    "en": "in doing so",
+    "ex": "Er hat den Schrank allein aufgebaut. Dabei hat er sich verletzt."
+   },
+   {
+    "en": "and yet",
+    "ex": "Sie kauft ständig neue Kleidung. Dabei hat sie schon viel zu viel."
+   }
+  ]
+ },
+ {
+  "de": "darum",
+  "en": "that is why, for that reason",
+  "kind": "adv",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich bin krank geworden. Darum konnte ich nicht zum Unterricht kommen."
+   }
+  ]
+ },
+ {
+  "de": "nicht nur … sondern auch",
+  "en": "not only … but also",
+  "kind": "conj",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Sie spricht nicht nur Deutsch, sondern auch Englisch und Spanisch."
+   }
+  ]
+ },
+ {
+  "de": "im Gegensatz zu",
+  "en": "in contrast to, unlike",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Im Gegensatz zu meinem Bruder stehe ich gern früh auf."
+   }
+  ]
+ },
+ {
+  "de": "meiner Meinung nach",
+  "en": "in my opinion",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Meiner Meinung nach sollte man mehr für die Umwelt tun."
+   }
+  ]
+ },
+ {
+  "de": "zum Schluss",
+  "en": "finally, to conclude",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Zum Schluss möchte ich mich für Ihre Hilfe bedanken."
+   }
+  ]
+ },
+ {
+  "de": "auf jeden Fall",
+  "en": "in any case, definitely",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich rufe Sie auf jeden Fall bis Freitag zurück."
+   }
+  ]
+ },
+ {
+  "de": "ich",
+  "en": "I",
+  "kind": "pron",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich heiße Luis und ich komme aus Mexiko."
+   }
+  ]
+ },
+ {
+  "de": "du",
+  "en": "you (informal)",
+  "kind": "pron",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Kommst du heute Abend mit ins Kino?"
+   }
+  ]
+ },
+ {
+  "de": "er",
+  "en": "he, it",
+  "kind": "pron",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Das ist mein Bruder. Er wohnt in Köln."
+   }
+  ]
+ },
+ {
+  "de": "sie",
+  "en": "she; they",
+  "kind": "pron",
+  "sn": [
+   {
+    "en": "she",
+    "ex": "Das ist Frau Weber. Sie arbeitet hier im Büro."
+   },
+   {
+    "en": "they",
+    "ex": "Meine Eltern? Sie wohnen in Hamburg."
+   }
+  ]
+ },
+ {
+  "de": "wir",
+  "en": "we",
+  "kind": "pron",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Wir gehen heute Abend essen."
+   }
+  ]
+ },
+ {
+  "de": "Sie",
+  "en": "you (formal, always capitalised)",
+  "kind": "pron",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Entschuldigung, können Sie mir bitte helfen?"
+   }
+  ]
+ },
+ {
+  "de": "der Tag",
+  "en": "day",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Einen schönen Tag noch!"
+   }
+  ],
+  "pl": "-e"
+ },
+ {
+  "de": "die Woche",
+  "en": "week",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich arbeite fünf Tage in der Woche."
+   }
+  ],
+  "pl": "-n"
+ },
+ {
+  "de": "der Monat",
+  "en": "month",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Die Wohnung kostet 600 Euro im Monat."
+   }
+  ],
+  "pl": "-e"
+ },
+ {
+  "de": "das Jahr",
+  "en": "year",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich lebe seit drei Jahren in Deutschland."
+   }
+  ],
+  "pl": "-e"
+ },
+ {
+  "de": "die Nacht",
+  "en": "night",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich habe die ganze Nacht nicht geschlafen."
+   }
+  ],
+  "pl": "-\"e"
+ },
+ {
+  "de": "der Morgen",
+  "en": "morning",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Am Morgen trinke ich immer einen Kaffee."
+   }
+  ],
+  "pl": "-"
+ },
+ {
+  "de": "der Mittag",
+  "en": "midday, noon",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Wir essen um zwölf Uhr zu Mittag."
+   }
+  ],
+  "pl": "-e"
+ },
+ {
+  "de": "der Abend",
+  "en": "evening",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Am Abend sehe ich gern fern."
+   }
+  ],
+  "pl": "-e"
+ },
+ {
+  "de": "das Wochenende",
+  "en": "weekend",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Was machst du am Wochenende?"
+   }
+  ],
+  "pl": "-n"
+ },
+ {
+  "de": "morgen",
+  "en": "tomorrow",
+  "kind": "adv",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Morgen muss ich früh aufstehen."
+   }
+  ]
+ },
+ {
+  "de": "der Montag",
+  "en": "Monday",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Am Montag muss ich zum Arzt."
+   }
+  ],
+  "pl": "-e"
+ },
+ {
+  "de": "der Dienstag",
+  "en": "Tuesday",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Der Deutschkurs ist jeden Dienstag um 18 Uhr."
+   }
+  ],
+  "pl": "-e"
+ },
+ {
+  "de": "der Mittwoch",
+  "en": "Wednesday",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Mittwoch habe ich leider keine Zeit."
+   }
+  ],
+  "pl": "-e"
+ },
+ {
+  "de": "der Donnerstag",
+  "en": "Thursday",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Wir treffen uns am Donnerstag im Café."
+   }
+  ],
+  "pl": "-e"
+ },
+ {
+  "de": "der Freitag",
+  "en": "Friday",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Freitags arbeite ich nur bis mittags."
+   }
+  ],
+  "pl": "-e"
+ },
+ {
+  "de": "der Samstag",
+  "en": "Saturday",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Am Samstag gehe ich einkaufen."
+   }
+  ],
+  "pl": "-e"
+ },
+ {
+  "de": "der Sonntag",
+  "en": "Sunday",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Sonntags sind alle Geschäfte geschlossen."
+   }
+  ],
+  "pl": "-e"
+ },
+ {
+  "de": "null",
+  "en": "zero",
+  "kind": "num",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Das Spiel endete zwei zu null."
+   }
+  ]
+ },
+ {
+  "de": "eins",
+  "en": "one",
+  "kind": "num",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich nehme nur eins, danke."
+   }
+  ]
+ },
+ {
+  "de": "zwei",
+  "en": "two",
+  "kind": "num",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Einen Tisch für zwei Personen, bitte."
+   }
+  ]
+ },
+ {
+  "de": "drei",
+  "en": "three",
+  "kind": "num",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich hätte gern drei Brötchen."
+   }
+  ]
+ },
+ {
+  "de": "vier",
+  "en": "four",
+  "kind": "num",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Der Bus kommt um vier Uhr."
+   }
+  ]
+ },
+ {
+  "de": "fünf",
+  "en": "five",
+  "kind": "num",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Das kostet fünf Euro."
+   }
+  ]
+ },
+ {
+  "de": "sechs",
+  "en": "six",
+  "kind": "num",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich stehe jeden Tag um sechs Uhr auf."
+   }
+  ]
+ },
+ {
+  "de": "sieben",
+  "en": "seven",
+  "kind": "num",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Die Woche hat sieben Tage."
+   }
+  ]
+ },
+ {
+  "de": "acht",
+  "en": "eight",
+  "kind": "num",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Der Zug fährt um acht Uhr ab."
+   }
+  ]
+ },
+ {
+  "de": "neun",
+  "en": "nine",
+  "kind": "num",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Die Apotheke öffnet um neun Uhr."
+   }
+  ]
+ },
+ {
+  "de": "zehn",
+  "en": "ten",
+  "kind": "num",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Zehn Minuten zu Fuß, dann sind Sie da."
+   }
+  ]
+ },
+ {
+  "de": "zwanzig",
+  "en": "twenty",
+  "kind": "num",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Die Fahrkarte kostet zwanzig Euro."
+   }
+  ]
+ },
+ {
+  "de": "hundert",
+  "en": "hundred",
+  "kind": "num",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich habe leider nur einen Hundert-Euro-Schein."
+   }
+  ]
+ },
+ {
+  "de": "der Euro",
+  "en": "euro",
+  "kind": "noun",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Das Brot kostet zwei Euro fünfzig."
+   }
+  ],
+  "pl": "-"
+ },
+ {
+  "de": "Guten Tag",
+  "en": "hello, good day",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Guten Tag, ich möchte einen Termin machen."
+   }
+  ]
+ },
+ {
+  "de": "Guten Morgen",
+  "en": "good morning",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Guten Morgen! Haben Sie gut geschlafen?"
+   }
+  ]
+ },
+ {
+  "de": "Guten Abend",
+  "en": "good evening",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Guten Abend, einen Tisch für zwei bitte."
+   }
+  ]
+ },
+ {
+  "de": "Gute Nacht",
+  "en": "good night",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich gehe jetzt schlafen. Gute Nacht!"
+   }
+  ]
+ },
+ {
+  "de": "Auf Wiedersehen",
+  "en": "goodbye",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Vielen Dank und auf Wiedersehen!"
+   }
+  ]
+ },
+ {
+  "de": "Tschüss",
+  "en": "bye",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Tschüss, bis morgen!"
+   }
+  ]
+ },
+ {
+  "de": "Wie geht es Ihnen?",
+  "en": "how are you? (formal)",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Guten Tag, Frau Weber. Wie geht es Ihnen?"
+   }
+  ]
+ },
+ {
+  "de": "Es tut mir leid",
+  "en": "I am sorry",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Es tut mir leid, ich habe Ihren Namen vergessen."
+   }
+  ]
+ },
+ {
+  "de": "Ich verstehe nicht",
+  "en": "I do not understand",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich verstehe nicht. Können Sie das bitte wiederholen?"
+   }
+  ]
+ },
+ {
+  "de": "Sprechen Sie Englisch?",
+  "en": "do you speak English?",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Mein Deutsch ist noch nicht gut. Sprechen Sie Englisch?"
+   }
+  ]
+ },
+ {
+  "de": "Wie bitte?",
+  "en": "sorry? pardon?",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Wie bitte? Können Sie das bitte noch einmal sagen?"
+   }
+  ]
+ },
+ {
+  "de": "Bis bald",
+  "en": "see you soon",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Danke für den Kaffee. Bis bald!"
+   }
+  ]
+ },
+ {
+  "de": "geöffnet",
+  "en": "open (sign)",
+  "kind": "adj",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Montag bis Freitag von 9 bis 18 Uhr geöffnet."
+   }
+  ]
+ },
+ {
+  "de": "geschlossen",
+  "en": "closed (sign)",
+  "kind": "adj",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Wegen Urlaub geschlossen."
+   }
+  ]
+ },
+ {
+  "de": "besetzt",
+  "en": "occupied, engaged",
+  "kind": "adj",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Die Toilette ist besetzt."
+   }
+  ]
+ },
+ {
+  "de": "Rauchen verboten",
+  "en": "no smoking",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Im ganzen Bahnhof gilt: Rauchen verboten."
+   }
+  ]
+ },
+ {
+  "de": "Ich hätte gern",
+  "en": "I would like",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich hätte gern einen Kaffee und ein Wasser, bitte."
+   }
+  ]
+ },
+ {
+  "de": "Was kostet das?",
+  "en": "how much is that?",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Entschuldigung, was kostet das?"
+   }
+  ]
+ },
+ {
+  "de": "Die Rechnung, bitte",
+  "en": "the bill, please",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Wir möchten zahlen. Die Rechnung, bitte."
+   }
+  ]
+ },
+ {
+  "de": "zum Mitnehmen",
+  "en": "to take away",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Einen Kaffee zum Mitnehmen, bitte."
+   }
+  ]
+ },
+ {
+  "de": "Deutsch",
+  "en": "German (the language)",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich lerne seit einem Jahr Deutsch."
+   }
+  ]
+ },
+ {
+  "de": "Deutschland",
+  "en": "Germany",
+  "kind": "other",
+  "sn": [
+   {
+    "en": null,
+    "ex": "Ich wohne seit 2023 in Deutschland."
+   }
+  ]
+ }
 ]

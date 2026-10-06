@@ -3,9 +3,10 @@
 A spaced-repetition flashcard trainer for the German **DTZ / B1** vocabulary, built to run
 on a phone. Works offline, stores progress locally, no account and no backend.
 
-**2,670 cards** — every word from the official DTZ *Alphabetische Wortliste*, each with an
+**2,729 cards** — every word from the official DTZ *Alphabetische Wortliste*, each with an
 English gloss, gender and plural, principal parts for verbs, an authentic example sentence,
-and a corpus frequency rank used to order the deck so the most useful words come first.
+and a corpus frequency rank used to order the deck so the most useful words come first,
+plus 81 everyday words that list leaves out (see *Beyond the DTZ list* below).
 
 ## Using it
 
@@ -19,6 +20,7 @@ screen — study, browse and statistics — to one list:
 
 | | |
 |---|---|
+| **First words** *(Erste Wörter)* | the 200 words to start with: greetings, `ich`/`du`/`Sie`, the numbers, the days, what the street signs say (`geöffnet`, `geschlossen`, `der Notausgang`, `Rauchen verboten`), and enough to order a coffee and pay for it |
 | **Connectors** *(Verbindungswörter)* | `obwohl`, `sonst`, `trotzdem`, `sowie`, `jedoch`, `einerseits … andererseits` — the words that join two ideas, and what the writing and speaking parts of the exam are really marked on |
 | **Question words**, **Prepositions**, **Time**, **Place**, **Amounts** | the rest of the grammatical machinery |
 | **Work**, **Officialdom**, **Home**, **Health**, **Food**, **Travel**, **People**, **Money**, **School**, **Talking**, **Leisure**, **Feelings**, **Nature** | the DTZ's own subject areas |
@@ -150,9 +152,8 @@ python3 build_deck.py     # join both      -> deck.json
   carries no subject headings at all, so all 2,527 assignments are made by hand. A word can
   be in several lists (`die Krankenkasse` is both *Health* and *Officialdom*); a word that
   belongs nowhere in particular (`haben`, `machen`) is in none.
-- `extra_cards.json` holds 22 linking words the DTZ list happens to omit — `sowie`,
-  `jedoch`, `dennoch`, `zunächst`, `meiner Meinung nach` — with example sentences written
-  by hand. They are the only cards in the deck that do not come from the two sources.
+- `extra_cards.json` holds the 81 cards written by hand (see *Beyond the DTZ list*). Each
+  one names its own word lists in `word_categories.json`; nouns may carry a `pl`.
 
 `build_deck.py` keeps the card order stable across rebuilds: any word already present in
 the published `deck.json` (read as `deck_prev.json`) keeps its slot, and only genuinely new
@@ -184,6 +185,23 @@ Chrome you get `overview.html` and can print it yourself.
 accident, with a single named exception for `B1-Vokabeln.pdf`, which we generate.
 
 After changing `deck.json`, bump `CACHE` in `sw.js` so phones fetch the new version.
+
+## Beyond the DTZ list
+
+Section 9.2 of the DTZ handbook is the *alphabetical* list, and it starts above the basics.
+Two kinds of word are missing from it entirely, and both are supplied by hand in
+`tools/extra_cards.json`:
+
+- **22 linking words** — `sowie`, `jedoch`, `dennoch`, `zunächst`, `meiner Meinung nach`
+  and the rest. The exam's writing and speaking parts ask for exactly these.
+- **59 elementary words** — `der Tag`, `die Woche`, `das Jahr`, `morgen`, the seven days,
+  the numbers, `der Euro`, `ich`, `du`, `Sie`, `Guten Tag`, `Tschüss`, `geöffnet`,
+  `geschlossen`, `Ich hätte gern`. These appear in the list's example sentences but are
+  never headwords, so a learner starting from zero would never meet them. They are what
+  makes the **First words** list possible.
+
+They are the only cards in the deck that do not come from the two sources, and they carry
+`"src": "extra"` so they can always be told apart.
 
 ## Sources
 

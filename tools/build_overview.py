@@ -13,6 +13,7 @@ deck = json.load(open(os.path.join(ROOT, 'deck.json'), encoding='utf-8'))
 
 # Same lists, same order, same names as the app's home screen.
 CATS = [
+    ('start',   'First words',    'Erste Wörter'),
     ('connect', 'Connectors',     'Verbindungswörter'),
     ('qw',      'Question words', 'Fragewörter'),
     ('prep',    'Prepositions',   'Präpositionen'),
@@ -129,6 +130,7 @@ h2 span{float:right;font-weight:400;color:var(--dim);font-size:11.5px;padding-to
 """
 
 n_ex = sum(len(c['sn'] or []) for c in deck)
+n_extra = sum(1 for c in deck if c['src'] == 'extra')
 out = f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8">
@@ -138,9 +140,11 @@ out = f"""<!DOCTYPE html>
 </head><body>
 <header>
 <h1>B1 Vokabeln</h1>
-<p class="sub">All {len(deck)} words of the DTZ list with their meanings and example
-sentences, grouped by word list and alphabetical within each. {n_ex} sentences.
-A word in several lists is printed in each. &nbsp;&middot;&nbsp; Print this page to get a PDF.</p>
+<p class="sub">All {len(deck)} words with their meanings and example sentences, grouped by
+word list and alphabetical within each. {n_ex} sentences. {len(deck) - n_extra} words come
+from the DTZ <i>Alphabetische Wortliste</i>; the other {n_extra} are everyday words that
+list leaves out, written by hand. A word in several lists is printed in each.
+&nbsp;&middot;&nbsp; Print this page to get a PDF.</p>
 <nav class="toc">{toc}</nav>
 </header>
 {''.join(body)}

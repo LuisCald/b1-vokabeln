@@ -1,4 +1,8 @@
 {
+"Auf Wiedersehen": [
+"start",
+"comm"
+],
 "Bescheid geben": [
 "comm",
 "office"
@@ -6,6 +10,22 @@
 "Bescheid sagen": [
 "comm",
 "office"
+],
+"Bis bald": [
+"start",
+"comm"
+],
+"Deutsch": [
+"start",
+"comm"
+],
+"Deutschland": [
+"start",
+"place"
+],
+"Die Rechnung, bitte": [
+"start",
+"food"
 ],
 "Doppel-": [
 "num"
@@ -16,8 +36,36 @@
 "Elektro-": [
 "home"
 ],
+"Es tut mir leid": [
+"start",
+"comm"
+],
 "Groß-": [
 "people"
+],
+"Gute Nacht": [
+"start",
+"comm"
+],
+"Guten Abend": [
+"start",
+"comm"
+],
+"Guten Morgen": [
+"start",
+"comm"
+],
+"Guten Tag": [
+"start",
+"comm"
+],
+"Ich hätte gern": [
+"start",
+"food"
+],
+"Ich verstehe nicht": [
+"start",
+"comm"
 ],
 "Kriminal-": [
 "office"
@@ -33,17 +81,46 @@
 "free",
 "travel"
 ],
+"Rauchen verboten": [
+"start",
+"place"
+],
 "S-Bahn": [
 "travel"
 ],
 "Schwieger-": [
 "people"
 ],
+"Sie": [
+"start",
+"people"
+],
 "Speise-/-speise": [
 "food"
 ],
+"Sprechen Sie Englisch?": [
+"start",
+"comm"
+],
 "Traum-": [
 "feel"
+],
+"Tschüss": [
+"start",
+"comm"
+],
+"Was kostet das?": [
+"start",
+"money",
+"food"
+],
+"Wie bitte?": [
+"start",
+"comm"
+],
+"Wie geht es Ihnen?": [
+"start",
+"comm"
 ],
 "ab": [
 "prep",
@@ -54,7 +131,8 @@
 "travel"
 ],
 "aber": [
-"connect"
+"connect",
+"start"
 ],
 "abfahren": [
 "travel"
@@ -98,6 +176,10 @@
 "ach": [
 "comm"
 ],
+"acht": [
+"start",
+"num"
+],
 "achten auf": [
 "health"
 ],
@@ -138,7 +220,8 @@
 ],
 "alt": [
 "people",
-"time"
+"time",
+"start"
 ],
 "an": [
 "prep"
@@ -188,11 +271,17 @@
 "comm",
 "home"
 ],
+"anschließend": [
+"connect"
+],
 "anschnallen": [
 "travel"
 ],
 "ansehen": [
 "free"
+],
+"ansonsten": [
+"connect"
 ],
 "ansprechen": [
 "comm"
@@ -219,7 +308,8 @@
 "free"
 ],
 "arbeiten": [
-"work"
+"work",
+"start"
 ],
 "arbeitslos": [
 "office",
@@ -232,10 +322,14 @@
 "health"
 ],
 "auch": [
-"connect"
+"connect",
+"start"
 ],
 "auf": [
 "prep"
+],
+"auf jeden Fall": [
+"connect"
 ],
 "auf sein": [
 "time"
@@ -521,6 +615,10 @@
 "comm",
 "travel"
 ],
+"besetzt": [
+"start",
+"place"
+],
 "besichtigen": [
 "home",
 "travel"
@@ -538,7 +636,8 @@
 ],
 "bestellen": [
 "food",
-"money"
+"money",
+"start"
 ],
 "bestrafen": [
 "office"
@@ -569,7 +668,11 @@
 "office"
 ],
 "bezahlen": [
-"money"
+"money",
+"start"
+],
+"beziehungsweise": [
+"connect"
 ],
 "bieten": [
 "money"
@@ -586,7 +689,8 @@
 "time"
 ],
 "bitte": [
-"comm"
+"comm",
+"start"
 ],
 "bitten": [
 "comm"
@@ -598,7 +702,8 @@
 "health"
 ],
 "blau": [
-"free"
+"free",
+"start"
 ],
 "blond": [
 "health"
@@ -614,6 +719,9 @@
 ],
 "braten": [
 "food"
+],
+"brauchen": [
+"start"
 ],
 "braun": [
 "free"
@@ -652,6 +760,9 @@
 "da": [
 "connect"
 ],
+"dabei": [
+"connect"
+],
 "dafür": [
 "connect"
 ],
@@ -684,7 +795,8 @@
 "feel"
 ],
 "danke": [
-"comm"
+"comm",
+"start"
 ],
 "danken": [
 "comm"
@@ -692,6 +804,9 @@
 "dann": [
 "connect",
 "time"
+],
+"darum": [
+"connect"
 ],
 "das Abgas": [
 "nature",
@@ -765,7 +880,8 @@
 "home"
 ],
 "das Bier": [
-"food"
+"food",
+"start"
 ],
 "das Bild": [
 "free"
@@ -784,7 +900,8 @@
 "travel"
 ],
 "das Brot": [
-"food"
+"food",
+"start"
 ],
 "das Brötchen": [
 "food"
@@ -858,7 +975,8 @@
 "home"
 ],
 "das Essen": [
-"food"
+"food",
+"start"
 ],
 "das Fach": [
 "school"
@@ -899,7 +1017,8 @@
 "health"
 ],
 "das Fleisch": [
-"food"
+"food",
+"start"
 ],
 "das Flugzeug": [
 "travel"
@@ -911,7 +1030,8 @@
 "free"
 ],
 "das Frühstück": [
-"food"
+"food",
+"start"
 ],
 "das Fundbüro": [
 "office",
@@ -942,10 +1062,12 @@
 "comm"
 ],
 "das Geld": [
-"money"
+"money",
+"start"
 ],
 "das Gemüse": [
-"food"
+"food",
+"start"
 ],
 "das Gepäck": [
 "travel"
@@ -983,7 +1105,8 @@
 "comm"
 ],
 "das Getränk": [
-"food"
+"food",
+"start"
 ],
 "das Gewicht": [
 "health",
@@ -1006,7 +1129,8 @@
 ],
 "das Glas": [
 "food",
-"home"
+"home",
+"start"
 ],
 "das Gleis": [
 "travel"
@@ -1104,6 +1228,10 @@
 "comm",
 "work"
 ],
+"das Jahr": [
+"start",
+"time"
+],
 "das Jugendamt": [
 "office"
 ],
@@ -1118,7 +1246,8 @@
 "travel"
 ],
 "das Kind": [
-"people"
+"people",
+"start"
 ],
 "das Kino": [
 "free"
@@ -1154,7 +1283,8 @@
 "travel"
 ],
 "das Krankenhaus": [
-"health"
+"health",
+"start"
 ],
 "das Kreuz": [
 "health"
@@ -1356,7 +1486,8 @@
 "travel"
 ],
 "das Restaurant": [
-"food"
+"food",
+"start"
 ],
 "das Rezept": [
 "food",
@@ -1370,7 +1501,8 @@
 "health"
 ],
 "das Salz": [
-"food"
+"food",
+"start"
 ],
 "das Schaufenster": [
 "money"
@@ -1470,7 +1602,8 @@
 "health"
 ],
 "das Taxi": [
-"travel"
+"travel",
+"start"
 ],
 "das Team": [
 "work"
@@ -1562,7 +1695,8 @@
 ],
 "das Wasser": [
 "food",
-"nature"
+"nature",
+"start"
 ],
 "das Werk": [
 "work"
@@ -1573,6 +1707,10 @@
 ],
 "das Wetter": [
 "nature"
+],
+"das Wochenende": [
+"start",
+"time"
 ],
 "das Wohngeld": [
 "home",
@@ -1621,7 +1759,8 @@
 "work"
 ],
 "das Zimmer": [
-"home"
+"home",
+"start"
 ],
 "das Zuhause": [
 "home"
@@ -1640,6 +1779,13 @@
 ],
 "denn": [
 "connect"
+],
+"dennoch": [
+"connect"
+],
+"der Abend": [
+"start",
+"time"
 ],
 "der Abfall": [
 "home",
@@ -1725,7 +1871,8 @@
 "money"
 ],
 "der Arzt": [
-"health"
+"health",
+"start"
 ],
 "der Aufenthalt": [
 "office",
@@ -1752,7 +1899,8 @@
 "travel"
 ],
 "der Ausgang": [
-"place"
+"place",
+"start"
 ],
 "der Ausländer": [
 "office",
@@ -1774,7 +1922,8 @@
 "work"
 ],
 "der Bahnhof": [
-"travel"
+"travel",
+"start"
 ],
 "der Bahnsteig": [
 "travel"
@@ -1910,7 +2059,8 @@
 "comm"
 ],
 "der Bus": [
-"travel"
+"travel",
+"start"
 ],
 "der Bürger": [
 "office",
@@ -1942,6 +2092,10 @@
 "der Dienst": [
 "work"
 ],
+"der Dienstag": [
+"start",
+"time"
+],
 "der Diesel": [
 "travel"
 ],
@@ -1951,6 +2105,10 @@
 ],
 "der Doktor": [
 "health"
+],
+"der Donnerstag": [
+"start",
+"time"
 ],
 "der Druck": [
 "work"
@@ -1985,7 +2143,8 @@
 "feel"
 ],
 "der Eingang": [
-"place"
+"place",
+"start"
 ],
 "der Einkauf": [
 "food",
@@ -2026,6 +2185,11 @@
 ],
 "der Essig": [
 "food"
+],
+"der Euro": [
+"start",
+"num",
+"money"
 ],
 "der Experte": [
 "work"
@@ -2105,8 +2269,13 @@
 "der Fotoapparat": [
 "free"
 ],
+"der Freitag": [
+"start",
+"time"
+],
 "der Freund": [
-"people"
+"people",
+"start"
 ],
 "der Friseur": [
 "free",
@@ -2281,7 +2450,8 @@
 "people"
 ],
 "der Kaffee": [
-"food"
+"food",
+"start"
 ],
 "der Kalender": [
 "time"
@@ -2479,7 +2649,8 @@
 "work"
 ],
 "der Mann": [
-"people"
+"people",
+"start"
 ],
 "der Mantel": [
 "free"
@@ -2512,7 +2683,19 @@
 "der Mitarbeiter": [
 "work"
 ],
+"der Mittag": [
+"start",
+"time"
+],
+"der Mittwoch": [
+"start",
+"time"
+],
 "der Moment": [
+"time"
+],
+"der Monat": [
+"start",
 "time"
 ],
 "der Mond": [
@@ -2521,6 +2704,14 @@
 "der Monitor": [
 "comm",
 "work"
+],
+"der Montag": [
+"start",
+"time"
+],
+"der Morgen": [
+"start",
+"time"
 ],
 "der Motor": [
 "travel"
@@ -2564,7 +2755,8 @@
 ],
 "der Name": [
 "office",
-"people"
+"people",
+"start"
 ],
 "der Nebel": [
 "nature"
@@ -2583,7 +2775,8 @@
 ],
 "der Notausgang": [
 "health",
-"place"
+"place",
+"start"
 ],
 "der Notfall": [
 "health"
@@ -2789,6 +2982,10 @@
 "der Salon": [
 "free"
 ],
+"der Samstag": [
+"start",
+"time"
+],
 "der Sand": [
 "nature"
 ],
@@ -2827,7 +3024,8 @@
 "time"
 ],
 "der Schlüssel": [
-"home"
+"home",
+"start"
 ],
 "der Schmerz": [
 "health"
@@ -2894,6 +3092,10 @@
 ],
 "der Sohn": [
 "people"
+],
+"der Sonntag": [
+"start",
+"time"
 ],
 "der Sozialarbeiter": [
 "office",
@@ -3013,13 +3215,18 @@
 ],
 "der Supermarkt": [
 "food",
-"money"
+"money",
+"start"
 ],
 "der Sänger": [
 "free"
 ],
 "der Süden/Süd/Süd-": [
 "place"
+],
+"der Tag": [
+"start",
+"time"
 ],
 "der Tagesablauf": [
 "time"
@@ -3032,7 +3239,8 @@
 "work"
 ],
 "der Tee": [
-"food"
+"food",
+"start"
 ],
 "der Teil": [
 "num"
@@ -3066,7 +3274,8 @@
 "comm"
 ],
 "der Tisch": [
-"home"
+"home",
+"start"
 ],
 "der Titel": [
 "comm"
@@ -3134,7 +3343,8 @@
 "travel"
 ],
 "der Vater": [
-"people"
+"people",
+"start"
 ],
 "der Verband": [
 "health",
@@ -3217,7 +3427,8 @@
 "travel"
 ],
 "der Wein": [
-"food"
+"food",
+"start"
 ],
 "der Weltmeister": [
 "free"
@@ -3281,7 +3492,8 @@
 "feel"
 ],
 "der Zug": [
-"travel"
+"travel",
+"start"
 ],
 "der Zuhörer": [
 "comm"
@@ -3350,7 +3562,8 @@
 "free"
 ],
 "die Ampel": [
-"travel"
+"travel",
+"start"
 ],
 "die Angabe": [
 "comm",
@@ -3384,7 +3597,8 @@
 "office"
 ],
 "die Apotheke": [
-"health"
+"health",
+"start"
 ],
 "die Aprikose": [
 "food"
@@ -3722,7 +3936,8 @@
 "feel"
 ],
 "die Entschuldigung": [
-"comm"
+"comm",
+"start"
 ],
 "die Enttäuschung": [
 "feel"
@@ -3782,14 +3997,16 @@
 "travel"
 ],
 "die Fahrkarte": [
-"travel"
+"travel",
+"start"
 ],
 "die Fahrschule": [
 "school",
 "travel"
 ],
 "die Familie": [
-"people"
+"people",
+"start"
 ],
 "die Fantasie": [
 "feel"
@@ -3863,7 +4080,8 @@
 "comm"
 ],
 "die Frau": [
-"people"
+"people",
+"start"
 ],
 "die Freiheit": [
 "feel",
@@ -4009,7 +4227,8 @@
 "work"
 ],
 "die Haltestelle": [
-"travel"
+"travel",
+"start"
 ],
 "die Hand": [
 "health"
@@ -4039,7 +4258,8 @@
 "people"
 ],
 "die Hilfe": [
-"comm"
+"comm",
+"start"
 ],
 "die Hitze": [
 "nature"
@@ -4124,7 +4344,8 @@
 "food"
 ],
 "die Kasse": [
-"money"
+"money",
+"start"
 ],
 "die Katastrophe": [
 "nature"
@@ -4291,7 +4512,8 @@
 "work"
 ],
 "die Leute": [
-"people"
+"people",
+"start"
 ],
 "die Liebe": [
 "feel",
@@ -4428,7 +4650,8 @@
 "free"
 ],
 "die Mutter": [
-"people"
+"people",
+"start"
 ],
 "die Muttersprache": [
 "comm",
@@ -4456,6 +4679,10 @@
 ],
 "die Nachspeise": [
 "food"
+],
+"die Nacht": [
+"start",
+"time"
 ],
 "die Nadel": [
 "home"
@@ -4564,7 +4791,8 @@
 "office"
 ],
 "die Polizei": [
-"office"
+"office",
+"start"
 ],
 "die Pommes frites": [
 "food"
@@ -4617,7 +4845,8 @@
 "feel"
 ],
 "die Rechnung": [
-"money"
+"money",
+"start"
 ],
 "die Rede": [
 "comm"
@@ -4789,7 +5018,8 @@
 "food"
 ],
 "die Speisekarte": [
-"food"
+"food",
+"start"
 ],
 "die Sportart": [
 "free"
@@ -4847,7 +5077,8 @@
 ],
 "die Straße": [
 "place",
-"travel"
+"travel",
+"start"
 ],
 "die Straßenbahn": [
 "travel"
@@ -4930,7 +5161,8 @@
 "people"
 ],
 "die Toilette": [
-"home"
+"home",
+"start"
 ],
 "die Tomate": [
 "food"
@@ -4968,7 +5200,8 @@
 "travel"
 ],
 "die Uhr": [
-"time"
+"time",
+"start"
 ],
 "die Umfrage": [
 "comm"
@@ -5063,7 +5296,8 @@
 "office"
 ],
 "die Vorsicht": [
-"health"
+"health",
+"start"
 ],
 "die Vorspeise": [
 "food"
@@ -5123,11 +5357,16 @@
 "money",
 "work"
 ],
+"die Woche": [
+"start",
+"time"
+],
 "die Wohngemeinschaft": [
 "home"
 ],
 "die Wohnung": [
-"home"
+"home",
+"start"
 ],
 "die Wolke": [
 "nature"
@@ -5163,7 +5402,8 @@
 "health"
 ],
 "die Zeit": [
-"time"
+"time",
+"start"
 ],
 "die Zeitarbeit": [
 "work"
@@ -5260,6 +5500,10 @@
 "draußen": [
 "place"
 ],
+"drei": [
+"start",
+"num"
+],
 "drin": [
 "place"
 ],
@@ -5272,6 +5516,10 @@
 ],
 "drüben": [
 "place"
+],
+"du": [
+"start",
+"people"
 ],
 "dumm": [
 "feel"
@@ -5292,6 +5540,9 @@
 "dünn": [
 "health",
 "num"
+],
+"dürfen": [
+"start"
 ],
 "eben": [
 "time"
@@ -5360,6 +5611,10 @@
 ],
 "einrichten": [
 "home"
+],
+"eins": [
+"start",
+"num"
 ],
 "einsam": [
 "feel"
@@ -5468,6 +5723,10 @@
 "entweder ... oder": [
 "connect"
 ],
+"er": [
+"start",
+"people"
+],
 "erfahren": [
 "comm"
 ],
@@ -5535,6 +5794,9 @@
 "erst-": [
 "num"
 ],
+"erstens": [
+"connect"
+],
 "erwarten": [
 "feel"
 ],
@@ -5550,7 +5812,8 @@
 "work"
 ],
 "essen": [
-"food"
+"food",
+"start"
 ],
 "etwa": [
 "num"
@@ -5565,7 +5828,8 @@
 "time"
 ],
 "fahren": [
-"travel"
+"travel",
+"start"
 ],
 "fair": [
 "feel"
@@ -5574,7 +5838,8 @@
 "connect"
 ],
 "falsch": [
-"school"
+"school",
+"start"
 ],
 "fangen": [
 "free"
@@ -5619,6 +5884,9 @@
 "finanzieren": [
 "money"
 ],
+"finden": [
+"start"
+],
 "fit": [
 "health"
 ],
@@ -5648,6 +5916,9 @@
 "folgend": [
 "connect"
 ],
+"folglich": [
+"connect"
+],
 "fordern": [
 "comm",
 "office"
@@ -5663,7 +5934,8 @@
 ],
 "frei": [
 "office",
-"time"
+"time",
+"start"
 ],
 "freiwillig": [
 "office"
@@ -5690,7 +5962,8 @@
 "feel"
 ],
 "früh": [
-"time"
+"time",
+"start"
 ],
 "früher/früher-": [
 "time"
@@ -5718,6 +5991,10 @@
 "führen": [
 "work"
 ],
+"fünf": [
+"start",
+"num"
+],
 "für": [
 "prep"
 ],
@@ -5729,6 +6006,9 @@
 ],
 "garantieren": [
 "money"
+],
+"geben": [
+"start"
 ],
 "geboren": [
 "people"
@@ -5764,11 +6044,15 @@
 "geheim": [
 "comm"
 ],
+"gehen": [
+"start"
+],
 "gehören": [
 "people"
 ],
 "gelb": [
-"free"
+"free",
+"start"
 ],
 "gelingen": [
 "feel"
@@ -5799,7 +6083,8 @@
 "time"
 ],
 "geradeaus": [
-"place"
+"place",
+"start"
 ],
 "gerecht": [
 "feel",
@@ -5822,11 +6107,16 @@
 "office",
 "people"
 ],
+"geschlossen": [
+"start",
+"place"
+],
 "gespannt": [
 "feel"
 ],
 "gestern": [
-"time"
+"time",
+"start"
 ],
 "gesund": [
 "health"
@@ -5845,6 +6135,10 @@
 ],
 "gewöhnlich": [
 "time"
+],
+"geöffnet": [
+"start",
+"place"
 ],
 "gießen": [
 "home",
@@ -5891,10 +6185,12 @@
 "free"
 ],
 "groß": [
-"num"
+"num",
+"start"
 ],
 "grün": [
-"free"
+"free",
+"start"
 ],
 "gründen": [
 "work"
@@ -5909,7 +6205,8 @@
 "free"
 ],
 "gut": [
-"feel"
+"feel",
+"start"
 ],
 "gültig": [
 "office",
@@ -5918,6 +6215,9 @@
 "günstig": [
 "money"
 ],
+"haben": [
+"start"
+],
 "halb": [
 "num"
 ],
@@ -5925,7 +6225,8 @@
 "work"
 ],
 "hallo": [
-"comm"
+"comm",
+"start"
 ],
 "halt": [
 "comm"
@@ -5960,10 +6261,12 @@
 "nature"
 ],
 "heißen": [
-"people"
+"people",
+"start"
 ],
 "helfen": [
-"comm"
+"comm",
+"start"
 ],
 "hell": [
 "home",
@@ -5997,10 +6300,12 @@
 "comm"
 ],
 "heute": [
-"time"
+"time",
+"start"
 ],
 "hier": [
-"place"
+"place",
+"start"
 ],
 "hierher": [
 "place"
@@ -6032,9 +6337,14 @@
 "holen": [
 "home"
 ],
+"hundert": [
+"start",
+"num"
+],
 "hungrig": [
 "food",
-"health"
+"health",
+"start"
 ],
 "hupen": [
 "travel"
@@ -6064,11 +6374,21 @@
 "hübsch": [
 "feel"
 ],
+"ich": [
+"start",
+"people"
+],
 "illegal": [
 "office"
 ],
+"im Gegensatz zu": [
+"connect"
+],
 "immer": [
 "time"
+],
+"immerhin": [
+"connect"
 ],
 "impfen": [
 "health"
@@ -6134,7 +6454,8 @@
 "feel"
 ],
 "ja": [
-"comm"
+"comm",
+"start"
 ],
 "je": [
 "connect"
@@ -6154,6 +6475,9 @@
 "jedes Mal": [
 "time"
 ],
+"jedoch": [
+"connect"
+],
 "jemals": [
 "time"
 ],
@@ -6161,7 +6485,8 @@
 "people"
 ],
 "jetzt": [
-"time"
+"time",
+"start"
 ],
 "jeweils": [
 "num"
@@ -6178,7 +6503,8 @@
 "time"
 ],
 "kalt": [
-"nature"
+"nature",
+"start"
 ],
 "kaputt": [
 "home"
@@ -6190,7 +6516,8 @@
 "home"
 ],
 "kaufen": [
-"money"
+"money",
+"start"
 ],
 "kaum": [
 "num"
@@ -6214,7 +6541,8 @@
 "home"
 ],
 "klein": [
-"num"
+"num",
+"start"
 ],
 "klicken": [
 "comm"
@@ -6241,6 +6569,9 @@
 "komisch": [
 "feel"
 ],
+"kommen": [
+"start"
+],
 "komplett": [
 "num"
 ],
@@ -6265,13 +6596,15 @@
 "school"
 ],
 "kosten": [
-"money"
+"money",
+"start"
 ],
 "kostenlos": [
 "money"
 ],
 "krank": [
-"health"
+"health",
+"start"
 ],
 "krankmelden": [
 "health",
@@ -6296,6 +6629,9 @@
 ],
 "kämpfen": [
 "feel"
+],
+"können": [
+"start"
 ],
 "körperlich": [
 "health"
@@ -6359,7 +6695,8 @@
 "health"
 ],
 "leider": [
-"comm"
+"comm",
+"start"
 ],
 "leidtun": [
 "comm",
@@ -6378,7 +6715,8 @@
 "work"
 ],
 "lernen": [
-"school"
+"school",
+"start"
 ],
 "lesen": [
 "free",
@@ -6403,7 +6741,8 @@
 "place"
 ],
 "links": [
-"place"
+"place",
+"start"
 ],
 "loben": [
 "comm"
@@ -6437,6 +6776,9 @@
 "comm",
 "feel"
 ],
+"machen": [
+"start"
+],
 "mager": [
 "food"
 ],
@@ -6465,6 +6807,9 @@
 "meinen": [
 "comm",
 "feel"
+],
+"meiner Meinung nach": [
+"connect"
 ],
 "meist-": [
 "num"
@@ -6521,6 +6866,10 @@
 "modern": [
 "time"
 ],
+"morgen": [
+"start",
+"time"
+],
 "mutig": [
 "feel"
 ],
@@ -6532,14 +6881,19 @@
 "home"
 ],
 "mögen": [
-"feel"
+"feel",
+"start"
 ],
 "müde": [
-"health"
+"health",
+"start"
 ],
 "mündlich": [
 "comm",
 "school"
+],
+"müssen": [
+"start"
 ],
 "nach": [
 "prep",
@@ -6591,8 +6945,12 @@
 "negativ": [
 "feel"
 ],
+"nehmen": [
+"start"
+],
 "nein": [
-"comm"
+"comm",
+"start"
 ],
 "nennen": [
 "comm"
@@ -6608,13 +6966,24 @@
 "work"
 ],
 "neu": [
-"time"
+"time",
+"start"
 ],
 "neugierig": [
 "feel"
 ],
 "neulich": [
 "time"
+],
+"neun": [
+"start",
+"num"
+],
+"nicht": [
+"start"
+],
+"nicht nur … sondern auch": [
+"connect"
 ],
 "nichts": [
 "num"
@@ -6635,7 +7004,8 @@
 "place"
 ],
 "noch": [
-"time"
+"time",
+"start"
 ],
 "nochmal": [
 "time"
@@ -6648,6 +7018,10 @@
 ],
 "notieren": [
 "comm"
+],
+"null": [
+"start",
+"num"
 ],
 "nun": [
 "time"
@@ -6683,7 +7057,8 @@
 "connect"
 ],
 "oder": [
-"connect"
+"connect",
+"start"
 ],
 "offen": [
 "time"
@@ -6830,7 +7205,8 @@
 "office"
 ],
 "rechts": [
-"place"
+"place",
+"start"
 ],
 "rechtzeitig": [
 "time"
@@ -6893,7 +7269,8 @@
 "health"
 ],
 "richtig": [
-"school"
+"school",
+"start"
 ],
 "riechen": [
 "food",
@@ -6906,7 +7283,8 @@
 "food"
 ],
 "rot": [
-"free"
+"free",
+"start"
 ],
 "rufen": [
 "comm"
@@ -6924,7 +7302,8 @@
 "food"
 ],
 "sagen": [
-"comm"
+"comm",
+"start"
 ],
 "sammeln": [
 "free"
@@ -6983,7 +7362,8 @@
 "health"
 ],
 "schlecht": [
-"feel"
+"feel",
+"start"
 ],
 "schließen": [
 "home",
@@ -7000,7 +7380,8 @@
 "num"
 ],
 "schmecken": [
-"food"
+"food",
+"start"
 ],
 "schmutzig": [
 "home"
@@ -7016,7 +7397,8 @@
 "time"
 ],
 "schon": [
-"time"
+"time",
+"start"
 ],
 "schrecklich": [
 "feel"
@@ -7047,7 +7429,8 @@
 "people"
 ],
 "schwarz": [
-"free"
+"free",
+"start"
 ],
 "schwer": [
 "num",
@@ -7068,17 +7451,27 @@
 "num"
 ],
 "schön": [
-"feel"
+"feel",
+"start"
 ],
 "schützen": [
 "health",
 "nature"
 ],
+"sechs": [
+"start",
+"num"
+],
 "sehen": [
-"health"
+"health",
+"start"
 ],
 "sehr": [
-"num"
+"num",
+"start"
+],
+"sein": [
+"start"
 ],
 "seit": [
 "prep",
@@ -7179,6 +7572,14 @@
 "sichern": [
 "office"
 ],
+"sie": [
+"start",
+"people"
+],
+"sieben": [
+"start",
+"num"
+],
 "singen": [
 "free"
 ],
@@ -7212,6 +7613,9 @@
 "connect",
 "time"
 ],
+"somit": [
+"connect"
+],
 "sondern": [
 "connect"
 ],
@@ -7223,6 +7627,9 @@
 "people"
 ],
 "soviel": [
+"connect"
+],
+"sowie": [
 "connect"
 ],
 "sowieso": [
@@ -7255,13 +7662,15 @@
 "health"
 ],
 "sprechen": [
-"comm"
+"comm",
+"start"
 ],
 "springen": [
 "free"
 ],
 "spät": [
-"time"
+"time",
+"start"
 ],
 "spätestens": [
 "time"
@@ -7290,6 +7699,9 @@
 "statt": [
 "connect",
 "prep"
+],
+"stattdessen": [
+"connect"
 ],
 "stattfinden": [
 "free",
@@ -7364,7 +7776,8 @@
 "health"
 ],
 "suchen": [
-"work"
+"work",
+"start"
 ],
 "sympathisch": [
 "feel"
@@ -7404,7 +7817,8 @@
 "school"
 ],
 "teuer": [
-"money"
+"money",
+"start"
 ],
 "tief": [
 "num"
@@ -7449,7 +7863,8 @@
 "people"
 ],
 "trinken": [
-"food"
+"food",
+"start"
 ],
 "trocken": [
 "nature"
@@ -7505,7 +7920,8 @@
 "comm"
 ],
 "und": [
-"connect"
+"connect",
+"start"
 ],
 "unfreundlich": [
 "feel"
@@ -7714,7 +8130,8 @@
 "home"
 ],
 "verstehen": [
-"comm"
+"comm",
+"start"
 ],
 "verständlich": [
 "comm"
@@ -7754,6 +8171,10 @@
 "comm",
 "connect"
 ],
+"vier": [
+"start",
+"num"
+],
 "voll": [
 "num"
 ],
@@ -7763,6 +8184,9 @@
 "vor": [
 "prep",
 "time"
+],
+"vor allem": [
+"connect"
 ],
 "voraus": [
 "place",
@@ -7845,23 +8269,28 @@
 ],
 "wann": [
 "qw",
-"time"
+"time",
+"start"
 ],
 "warm": [
-"nature"
+"nature",
+"start"
 ],
 "warnen": [
 "comm",
 "health"
 ],
 "warten": [
-"time"
+"time",
+"start"
 ],
 "warum": [
-"qw"
+"qw",
+"start"
 ],
 "was": [
-"qw"
+"qw",
+"start"
 ],
 "was für ein-": [
 "qw"
@@ -7911,7 +8340,8 @@
 "place"
 ],
 "weiß": [
-"free"
+"free",
+"start"
 ],
 "welch-": [
 "qw"
@@ -7934,7 +8364,11 @@
 "time"
 ],
 "wer": [
-"qw"
+"qw",
+"start"
+],
+"werden": [
+"start"
 ],
 "werfen": [
 "free"
@@ -7956,7 +8390,8 @@
 "connect"
 ],
 "wie": [
-"qw"
+"qw",
+"start"
 ],
 "wie viel/wie viele": [
 "num",
@@ -7985,20 +8420,34 @@
 "winken": [
 "comm"
 ],
+"wir": [
+"start",
+"people"
+],
 "wirken": [
 "health"
 ],
+"wissen": [
+"start"
+],
 "wo": [
-"qw"
+"qw",
+"start"
 ],
 "woher": [
-"qw"
+"qw",
+"start"
 ],
 "wohin": [
-"qw"
+"qw",
+"start"
 ],
 "wohnen": [
-"home"
+"home",
+"start"
+],
+"wollen": [
+"start"
 ],
 "worum": [
 "qw"
@@ -8034,6 +8483,10 @@
 "zahlen": [
 "money"
 ],
+"zehn": [
+"start",
+"num"
+],
 "zeichnen": [
 "free"
 ],
@@ -8057,6 +8510,9 @@
 ],
 "zu sein": [
 "time"
+],
+"zudem": [
+"connect"
 ],
 "zuerst": [
 "connect",
@@ -8084,6 +8540,13 @@
 "zum Beispiel": [
 "connect"
 ],
+"zum Mitnehmen": [
+"start",
+"food"
+],
+"zum Schluss": [
+"connect"
+],
 "zumachen": [
 "home",
 "time"
@@ -8095,6 +8558,9 @@
 "zunehmen": [
 "health",
 "num"
+],
+"zunächst": [
+"connect"
 ],
 "zurechtkommen": [
 "feel"
@@ -8125,11 +8591,22 @@
 "feel",
 "work"
 ],
+"zwanzig": [
+"start",
+"num"
+],
 "zwar": [
 "connect"
 ],
+"zwei": [
+"start",
+"num"
+],
 "zweifeln": [
 "feel"
+],
+"zweitens": [
+"connect"
 ],
 "zwingen": [
 "feel"

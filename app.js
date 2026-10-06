@@ -13,6 +13,7 @@ const DEFAULTS = { dir:'de', newPerDay:9999, sessLen:30, range:'0', showEx:true,
    grammatical (a word joins ideas or asks a question); the rest are the DTZ's own topics.
    The German names are shown as tooltips — the exam uses them. */
 const CATS = [
+  ['start',  'First words',   'Erste Wörter'],
   ['connect','Connectors',    'Verbindungswörter'],
   ['qw',     'Question words','Fragewörter'],
   ['prep',   'Prepositions',  'Präpositionen'],
@@ -263,7 +264,7 @@ const $$ = s => [...document.querySelectorAll(s)];
 
 const KINDNAME = { noun:'noun', verb:'verb', adj:'adjective', adv:'adverb',
                    prep:'preposition', conj:'conjunction', pron:'pronoun',
-                   part:'particle', other:'' };
+                   part:'particle', num:'number', other:'' };
 
 function askGerman(i){
   const d = S.set.dir;
